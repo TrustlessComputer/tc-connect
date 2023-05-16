@@ -2,6 +2,7 @@ import resolve from "@rollup/plugin-node-resolve";
 import commonjs from "@rollup/plugin-commonjs";
 import typescript from "@rollup/plugin-typescript";
 import pkg from "./package.json";
+import { nodeResolve } from '@rollup/plugin-node-resolve';
 
 export default [
   // browser-friendly UMD build
@@ -13,10 +14,12 @@ export default [
       format: "umd",
       sourcemap: true,
     },
+    external: ['axios', 'events'],
     plugins: [
       resolve(), //
       commonjs(),
       typescript({ tsconfig: "./tsconfig.json" }),
+      nodeResolve({ browser: true })
     ],
   },
 
@@ -27,6 +30,10 @@ export default [
       { file: pkg.main, format: "cjs", sourcemap: true },
       { file: pkg.module, format: "es", sourcemap: true },
     ],
-    plugins: [typescript({ tsconfig: "./tsconfig.json" })],
+    external: ['axios', 'events'],
+    plugins: [
+      typescript({ tsconfig: "./tsconfig.json" }),
+      nodeResolve({ browser: false })
+    ],
   },
 ];
