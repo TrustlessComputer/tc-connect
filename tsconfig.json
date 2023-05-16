@@ -1,15 +1,20 @@
 {
   "compilerOptions": {
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext",
-      "es2020"
-    ],
-    "esModuleInterop": true,
-    "module": "esnext",
+    "incremental": true,
+    "target": "es2020",
+    "module": "commonjs",
     "moduleResolution": "node",
+    "baseUrl": ".",
+    "declaration": true,
+    "sourceMap": true,
+    "outDir": "dist",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
     "strict": true,
-    "target": "es6"
-  }
+    "useUnknownInCatchVariables": false,
+    "noImplicitAny": true,
+    "allowUnreachableCode": false,
+    "skipLibCheck": true
+  },
+  "exclude": ["./tests", "./dist"]
 }
