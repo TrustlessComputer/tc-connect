@@ -11,7 +11,7 @@ module.exports = {
   entry: ['./index.ts'],
   output: {
     filename: 'index.js',
-    library: 'sats_connect',
+    library: 'tc_connect',
     libraryTarget: 'var',
     path: path.resolve(process.cwd(), 'dist'),
   },
