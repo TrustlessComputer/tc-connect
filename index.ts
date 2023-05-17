@@ -7,26 +7,39 @@ enum RequestMethod {
   sign,
 }
 
-interface SignRequestPayload {
+interface ITcConnectResp {
+  method: RequestMethod;
+  isCancel: boolean;
+  errMsg?: string;
+}
+
+interface IRequestAccountResp extends ITcConnectResp {
+  tcAddress: string;
+  btcAddress: number;
+}
+
+interface IRequestSignPayload {
+  isInscribe: boolean;
   calldata: string;
   from?: string;
   to?: string;
   value?: string;
 }
-interface ITcConnectReq {
-  method: RequestMethod;
-  data?: SignRequestPayload | JSON;
+interface IRequestSignResp extends ITcConnectResp {
+  hash: string;
+  nonce: number;
+  to?: string;
+  from?: string;
 }
-interface ITcConnectRes {
-  data: string;
-}
+
 interface ITcConnect {
-  request: (req: ITcConnectReq) => Promise<ITcConnectRes>;
+  requestAccount: () => Promise<IRequestAccountResp>;
+  requestSign: (req: IRequestSignPayload) => Promise<IRequestSignResp>;
 }
 
 class TcConnect implements ITcConnect {
   private axios: AxiosInstance;
-  private currentUniqueID?: string;
+  private currentRequestID?: string;
 
   constructor(baseURL?: string) {
     this.axios = axios.create({
@@ -34,43 +47,76 @@ class TcConnect implements ITcConnect {
     });
   }
 
-  request = async (req: ITcConnectReq) => {
-    const uniqueID = this.generateUniqueID();
-    this.currentUniqueID = uniqueID;
+  requestAccount = async () => {
     try {
-      await this.axios.post('/data', {
-        id: uniqueID,
-        data: JSON.stringify({ method: req.method, ...req.data }),
-      });
+      const requestID = this.generateRequestId();
 
-      let tcRes;
-      while (true) {
-        // remove old request
-        if (this.currentUniqueID !== uniqueID) {
-          break;
-        }
-        // sleep 2s
-        await this.sleep(2000);
-        // call get result from wallet
-        try {
-          const res = await this.axios.get(`/result?id=${uniqueID}`);
-          const data = res.data.data;
-          if (data && data.id && data.id === uniqueID) {
-            const jsonStr = data.data; // JSON string
-            const jsonData = JSON.parse(jsonStr);
-            if (jsonData && jsonData.method === req.method) {
-              tcRes = jsonStr;
-              break;
-            }
-          }
-        } catch (error) {
-          continue;
-        }
-      }
-      return tcRes;
+      // post request
+      await this.axios.post('/data', {
+        id: requestID,
+        data: JSON.stringify({ method: RequestMethod.account }),
+      });
+      return await this.request(requestID, RequestMethod.account);
     } catch (error) {
-      throw error;
+      throw new Error('Can not request.');
     }
+  };
+
+  requestSign = async (req: IRequestSignPayload) => {
+    try {
+      const requestID = this.generateRequestId();
+
+      // post request
+      await this.axios.post('/data', {
+        id: requestID,
+        data: JSON.stringify({ method: RequestMethod.sign, ...req }),
+      });
+      return await this.request(requestID, RequestMethod.sign);
+    } catch (error) {
+      throw new Error('Can not request.');
+    }
+  };
+
+  private generateRequestId = () => {
+    const requestID = this.generateUniqueID();
+    this.currentRequestID = requestID;
+    return requestID;
+  };
+
+  private request = async (requestID: string, method: RequestMethod) => {
+    let tcConnectRes;
+    while (true) {
+      // remove old request
+      if (this.currentRequestID !== requestID) {
+        break;
+      }
+      // sleep 2s
+      await this.sleep(2000);
+      // call get result from wallet
+      try {
+        const res = await this.axios.get(`/result?id=${requestID}`);
+        const data = res.data.data;
+        const resultRequestId = data.id;
+        const resultData = data.data;
+        // check equal request id and has data
+        if (resultRequestId && resultRequestId === requestID && resultData) {
+          const tcRes = resultData;
+          if (tcRes && tcRes.method === method) {
+            if (tcRes.isCancel) {
+              throw new Error('Cancel request.');
+            }
+            if (tcRes.errMsg) {
+              throw new Error(tcRes.errMsg);
+            }
+            tcConnectRes = tcRes;
+            break;
+          }
+        }
+      } catch (error) {
+        continue;
+      }
+    }
+    return tcConnectRes;
   };
 
   private sleep = (ms: number) => {
@@ -84,4 +130,11 @@ class TcConnect implements ITcConnect {
   };
 }
 
-export { TcConnect, ITcConnect, ITcConnectReq, ITcConnectRes, RequestMethod, SignRequestPayload };
+export {
+  TcConnect,
+  ITcConnect,
+  ITcConnectResp,
+  IRequestAccountResp,
+  IRequestSignPayload,
+  IRequestSignResp,
+};

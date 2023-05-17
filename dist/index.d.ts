@@ -2,28 +2,41 @@ declare enum RequestMethod {
     account = 0,
     sign = 1
 }
-interface SignRequestPayload {
+interface ITcConnectResp {
+    method: RequestMethod;
+    isCancel: boolean;
+    errMsg?: string;
+}
+interface IRequestAccountResp extends ITcConnectResp {
+    tcAddress: string;
+    btcAddress: number;
+}
+interface IRequestSignPayload {
+    isInscribe: boolean;
     calldata: string;
     from?: string;
     to?: string;
     value?: string;
 }
-interface ITcConnectReq {
-    method: RequestMethod;
-    data?: SignRequestPayload | JSON;
-}
-interface ITcConnectRes {
-    data: string;
+interface IRequestSignResp extends ITcConnectResp {
+    hash: string;
+    nonce: number;
+    to?: string;
+    from?: string;
 }
 interface ITcConnect {
-    request: (req: ITcConnectReq) => Promise<ITcConnectRes>;
+    requestAccount: () => Promise<IRequestAccountResp>;
+    requestSign: (req: IRequestSignPayload) => Promise<IRequestSignResp>;
 }
 declare class TcConnect implements ITcConnect {
     private axios;
-    private currentUniqueID?;
+    private currentRequestID?;
     constructor(baseURL?: string);
-    request: (req: ITcConnectReq) => Promise<any>;
+    requestAccount: () => Promise<any>;
+    requestSign: (req: IRequestSignPayload) => Promise<any>;
+    private generateRequestId;
+    private request;
     private sleep;
     private generateUniqueID;
 }
-export { TcConnect, ITcConnect, ITcConnectReq, ITcConnectRes, RequestMethod, SignRequestPayload };
+export { TcConnect, ITcConnect, ITcConnectResp, IRequestAccountResp, IRequestSignPayload, IRequestSignResp, };

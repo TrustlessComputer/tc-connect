@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.RequestMethod = exports.TcConnect = void 0;
+exports.TcConnect = void 0;
 const axios_1 = __importDefault(require("axios"));
 const BASE_URL = 'https://wadary.regtest.trustless.computer/relayer';
 var RequestMethod;
@@ -11,47 +11,76 @@ var RequestMethod;
     RequestMethod[RequestMethod["account"] = 0] = "account";
     RequestMethod[RequestMethod["sign"] = 1] = "sign";
 })(RequestMethod || (RequestMethod = {}));
-exports.RequestMethod = RequestMethod;
 class TcConnect {
     constructor(baseURL) {
-        this.request = async (req) => {
-            const uniqueID = this.generateUniqueID();
-            this.currentUniqueID = uniqueID;
+        this.requestAccount = async () => {
             try {
+                const requestID = this.generateRequestId();
+                // post request
                 await this.axios.post('/data', {
-                    id: uniqueID,
-                    data: JSON.stringify({ method: req.method, ...req.data }),
+                    id: requestID,
+                    data: JSON.stringify({ method: RequestMethod.account }),
                 });
-                let tcRes;
-                while (true) {
-                    // remove old request
-                    if (this.currentUniqueID !== uniqueID) {
-                        break;
-                    }
-                    // sleep 2s
-                    await this.sleep(2000);
-                    // call get result from wallet
-                    try {
-                        const res = await this.axios.get(`/result?id=${uniqueID}`);
-                        const data = res.data.data;
-                        if (data && data.id && data.id === uniqueID) {
-                            const jsonStr = data.data; // JSON string
-                            const jsonData = JSON.parse(jsonStr);
-                            if (jsonData && jsonData.method === req.method) {
-                                tcRes = jsonStr;
-                                break;
-                            }
-                        }
-                    }
-                    catch (error) {
-                        continue;
-                    }
-                }
-                return tcRes;
+                return await this.request(requestID, RequestMethod.account);
             }
             catch (error) {
-                throw error;
+                throw new Error('Can not request.');
             }
+        };
+        this.requestSign = async (req) => {
+            try {
+                const requestID = this.generateRequestId();
+                // post request
+                await this.axios.post('/data', {
+                    id: requestID,
+                    data: JSON.stringify({ method: RequestMethod.sign, ...req }),
+                });
+                return await this.request(requestID, RequestMethod.sign);
+            }
+            catch (error) {
+                throw new Error('Can not request.');
+            }
+        };
+        this.generateRequestId = () => {
+            const requestID = this.generateUniqueID();
+            this.currentRequestID = requestID;
+            return requestID;
+        };
+        this.request = async (requestID, method) => {
+            let tcConnectRes;
+            while (true) {
+                // remove old request
+                if (this.currentRequestID !== requestID) {
+                    break;
+                }
+                // sleep 2s
+                await this.sleep(2000);
+                // call get result from wallet
+                try {
+                    const res = await this.axios.get(`/result?id=${requestID}`);
+                    const data = res.data.data;
+                    const resultRequestId = data.id;
+                    const resultData = data.data;
+                    // check equal request id and has data
+                    if (resultRequestId && resultRequestId === requestID && resultData) {
+                        const tcRes = resultData;
+                        if (tcRes && tcRes.method === method) {
+                            if (tcRes.isCancel) {
+                                throw new Error('Cancel request.');
+                            }
+                            if (tcRes.errMsg) {
+                                throw new Error(tcRes.errMsg);
+                            }
+                            tcConnectRes = tcRes;
+                            break;
+                        }
+                    }
+                }
+                catch (error) {
+                    continue;
+                }
+            }
+            return tcConnectRes;
         };
         this.sleep = (ms) => {
             return new Promise((resolve) => setTimeout(resolve, ms));
