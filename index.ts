@@ -1,115 +1,73 @@
-import { EventEmitter } from 'events';
 import axios, { AxiosInstance } from 'axios';
 
 const BASE_URL = 'https://wadary.regtest.trustless.computer/relayer';
 
-abstract class BaseEventEmitter extends EventEmitter {
-  private axiosInstance?: AxiosInstance;
-
-  protected constructor() {
-    super();
-  }
-
-  init(baseURL: string): void {
-    if (baseURL) {
-      this.axiosInstance = axios.create({
-        baseURL,
-      });
-    }
-    this.listen();
-  }
-
-  get axios(): AxiosInstance {
-    return this.axiosInstance || axios.create();
-  }
-
-  abstract listen(): void;
+export enum RequestMethod {
+  user,
+  sign,
 }
-
-export interface ISignMessageData {
+export interface ITcConnectReq {
+  method: RequestMethod;
+  data: string;
+}
+export interface ITcConnectRes {
   data: string;
   id: string;
   message: string;
   site: string;
 }
-interface SignEventEvents {
-  resultSignMessageData: (data: ISignMessageData) => void;
+interface ITcConnect {
+  request: (req: ITcConnectReq) => Promise<ITcConnectRes>;
 }
 
-declare interface SignEventEmitter {
-  on<U extends keyof SignEventEvents>(event: U, listener: SignEventEvents[U]): this;
-  off<U extends keyof SignEventEvents>(event: U, listener: SignEventEvents[U]): this;
-  emit<U extends keyof SignEventEvents>(event: U, ...args: Parameters<SignEventEvents[U]>): boolean;
-}
+class TcConnect implements ITcConnect {
+  private axios: AxiosInstance;
 
-const generateUniqueID = () => {
-  const dateString = Date.now().toString(36);
-  const randomness = Math.random().toString(36).substr(2);
-  return dateString + randomness;
-};
-
-class SignEventEmitter extends BaseEventEmitter {
-  private static instance?: SignEventEmitter;
-
-  private intervalId: NodeJS.Timeout | undefined;
-  private uniqueID: string | undefined;
-
-  public static getInstance(): SignEventEmitter {
-    if (this.instance) {
-      return this.instance;
-    }
-
-    const emitter = new SignEventEmitter();
-    emitter.init(BASE_URL);
-
-    this.instance = emitter;
-    return emitter;
+  constructor(baseURL?: string) {
+    this.axios = axios.create({
+      baseURL: baseURL || BASE_URL,
+    });
   }
 
-  public static removeInstance(): void {
-    this.instance = undefined;
-  }
-
-  constructor() {
-    super();
-  }
-
-  listen() {
-    if (this.intervalId) {
-      clearInterval(this.intervalId);
-    }
-    this.intervalId = setInterval(this.getResultSignMessageData, 5000);
-  }
-
-  private getResultSignMessageData = async () => {
-    if (this.uniqueID) {
-      try {
-        const res = await this.axios.get(`/result?id=${this.uniqueID}`);
-        const data = res.data.data;
-        if (data && data.id) {
-          this.emit('resultSignMessageData', data);
-        }
-      } catch (error) {}
-    }
-  };
-
-  public disconnect() {
-    if (this.intervalId) {
-      clearInterval(this.intervalId);
-    }
-    super.removeAllListeners();
-    SignEventEmitter.removeInstance();
-  }
-
-  public postSignMessageData = async (data: string) => {
-    this.uniqueID = generateUniqueID();
+  request = async (req: ITcConnectReq) => {
+    const uniqueID = this.generateUniqueID();
     try {
-      this.axios.post('/data', {
-        id: this.uniqueID,
-        data,
+      await this.axios.post('/data', {
+        id: uniqueID,
+        data: req.data,
       });
-    } catch (error) {}
+      switch (req.method) {
+        default:
+          let tcRes;
+          while (!tcRes) {
+            try {
+              const res = await this.axios.get(`/result?id=${uniqueID}`);
+              const data = res.data.data;
+              if (data && data.id) {
+                tcRes = data;
+                return tcRes;
+              }
+            } catch (error) {
+              continue;
+            }
+            await this.sleep(1000); // 1s
+          }
+          break;
+      }
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  private sleep = (ms: number) => {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  };
+
+  private generateUniqueID = () => {
+    const dateString = Date.now().toString(36);
+    const randomness = Math.random().toString(36).substr(2);
+    return dateString + randomness;
   };
 }
 
-export { BASE_URL, BaseEventEmitter, SignEventEmitter };
+export { TcConnect };
