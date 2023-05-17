@@ -1,4 +1,3 @@
-import { AxiosInstance } from 'axios';
 declare enum RequestMethod {
     user = 0,
     sign = 1
@@ -13,16 +12,14 @@ interface ITcConnectRes {
     message: string;
     site: string;
 }
-declare abstract class BaseConnect {
-    private axiosInstance;
-    constructor(baseURL: string);
-    get axios(): AxiosInstance;
+interface ITcConnect {
+    request: (req: ITcConnectReq) => Promise<ITcConnectRes>;
 }
-declare class TcConnect extends BaseConnect {
-    private static instance?;
-    static getInstance(baseURL?: string): TcConnect;
+declare class TcConnect implements ITcConnect {
+    private axios;
+    constructor(baseURL?: string);
     request: (req: ITcConnectReq) => Promise<any>;
     private sleep;
     private generateUniqueID;
 }
-export { TcConnect, RequestMethod, ITcConnectReq, ITcConnectRes };
+export { TcConnect, ITcConnect, ITcConnectReq, ITcConnectRes };
