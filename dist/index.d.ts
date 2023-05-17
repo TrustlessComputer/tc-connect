@@ -9,8 +9,14 @@ declare abstract class BaseEventEmitter extends EventEmitter {
     get axios(): AxiosInstance;
     abstract listen(): void;
 }
+export interface ISignMessageData {
+    data: string;
+    id: string;
+    message: string;
+    site: string;
+}
 interface SignEventEvents {
-    resultSignMessageData: (data: any) => void;
+    resultSignMessageData: (data: ISignMessageData) => void;
 }
 declare interface SignEventEmitter {
     on<U extends keyof SignEventEvents>(event: U, listener: SignEventEvents[U]): this;
@@ -25,7 +31,7 @@ declare class SignEventEmitter extends BaseEventEmitter {
     static removeInstance(): void;
     constructor();
     listen(): void;
-    getResultSignMessageData: () => Promise<void>;
+    private getResultSignMessageData;
     disconnect(): void;
     postSignMessageData: (data: string) => Promise<void>;
 }

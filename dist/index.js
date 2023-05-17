@@ -50,8 +50,9 @@ class SignEventEmitter extends BaseEventEmitter {
                 try {
                     const res = await this.axios.get(`/result?id=${this.uniqueID}`);
                     const data = res.data.data;
-                    if (data) {
+                    if (data && data.id) {
                         this.emit('resultSignMessageData', data);
+                        this.disconnect();
                     }
                 }
                 catch (error) { }

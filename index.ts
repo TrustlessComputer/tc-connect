@@ -84,7 +84,7 @@ class SignEventEmitter extends BaseEventEmitter {
         this.intervalId = setInterval(this.getResultSignMessageData, 5000);
     }
 
-    getResultSignMessageData = async () => {
+    private getResultSignMessageData = async () => {
         if (this.uniqueID) {
             try {
                 const res = await this.axios.get(`/result?id=${this.uniqueID}`);
