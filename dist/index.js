@@ -25,6 +25,7 @@ class TcConnect {
                     default:
                         let tcRes;
                         while (!tcRes) {
+                            await this.sleep(1000); // 1s
                             try {
                                 const res = await this.axios.get(`/result?id=${uniqueID}`);
                                 const data = res.data.data;
@@ -36,7 +37,6 @@ class TcConnect {
                             catch (error) {
                                 continue;
                             }
-                            await this.sleep(1000); // 1s
                         }
                         break;
                 }
