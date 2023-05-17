@@ -39,20 +39,20 @@ class TcConnect implements ITcConnect {
       switch (req.method) {
         default:
           let tcRes;
-          while (!tcRes) {
-            await this.sleep(1000); // 1s
+          while (true) {
+            await this.sleep(2000); // 1s
             try {
               const res = await this.axios.get(`/result?id=${uniqueID}`);
               const data = res.data.data;
               if (data && data.id) {
                 tcRes = data;
-                return tcRes;
+                break;
               }
             } catch (error) {
               continue;
             }
           }
-          break;
+          return tcRes;
       }
     } catch (error) {
       throw error;
