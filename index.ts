@@ -16,10 +16,6 @@ interface ITcConnectRes {
   message: string;
   site: string;
 }
-interface ITcConnect {
-  request: (req: ITcConnectReq) => Promise<ITcConnectRes>;
-}
-
 abstract class BaseConnect {
   private axiosInstance: AxiosInstance;
 
@@ -34,7 +30,7 @@ abstract class BaseConnect {
   }
 }
 
-class TcConnect extends BaseConnect implements ITcConnect {
+class TcConnect extends BaseConnect {
   private static instance?: TcConnect;
 
   public static getInstance(baseURL?: string): TcConnect {
@@ -87,4 +83,4 @@ class TcConnect extends BaseConnect implements ITcConnect {
   };
 }
 
-export { TcConnect, RequestMethod, ITcConnectReq, ITcConnectRes, ITcConnect };
+export { TcConnect, RequestMethod, ITcConnectReq, ITcConnectRes };

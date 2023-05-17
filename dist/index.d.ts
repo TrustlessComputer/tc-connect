@@ -13,19 +13,16 @@ interface ITcConnectRes {
     message: string;
     site: string;
 }
-interface ITcConnect {
-    request: (req: ITcConnectReq) => Promise<ITcConnectRes>;
-}
 declare abstract class BaseConnect {
     private axiosInstance;
     constructor(baseURL: string);
     get axios(): AxiosInstance;
 }
-declare class TcConnect extends BaseConnect implements ITcConnect {
+declare class TcConnect extends BaseConnect {
     private static instance?;
     static getInstance(baseURL?: string): TcConnect;
     request: (req: ITcConnectReq) => Promise<any>;
     private sleep;
     private generateUniqueID;
 }
-export { TcConnect, RequestMethod, ITcConnectReq, ITcConnectRes, ITcConnect };
+export { TcConnect, RequestMethod, ITcConnectReq, ITcConnectRes };
