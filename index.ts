@@ -21,11 +21,13 @@ interface ITcConnect {
 }
 
 class TcConnect implements ITcConnect {
-  private axios: AxiosInstance;
+  private axios: AxiosInstance = axios.create({
+    baseURL: BASE_URL,
+  });
 
-  constructor(baseURL?: string) {
+  init(baseURL: string) {
     this.axios = axios.create({
-      baseURL: baseURL || BASE_URL,
+      baseURL,
     });
   }
 
@@ -70,4 +72,4 @@ class TcConnect implements ITcConnect {
   };
 }
 
-export { TcConnect };
+export default TcConnect;

@@ -17,9 +17,9 @@ interface ITcConnect {
 }
 declare class TcConnect implements ITcConnect {
     private axios;
-    constructor(baseURL?: string);
+    init(baseURL: string): void;
     request: (req: ITcConnectReq) => Promise<any>;
     private sleep;
     private generateUniqueID;
 }
-export { TcConnect };
+export default TcConnect;
