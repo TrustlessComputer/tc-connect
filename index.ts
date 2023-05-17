@@ -3,18 +3,15 @@ import axios, { AxiosInstance } from 'axios';
 const BASE_URL = 'https://wadary.regtest.trustless.computer/relayer';
 
 enum RequestMethod {
-  user,
+  account,
   sign,
 }
 interface ITcConnectReq {
   method: RequestMethod;
-  data: string;
+  data?: JSON;
 }
 interface ITcConnectRes {
   data: string;
-  id: string;
-  message: string;
-  site: string;
 }
 interface ITcConnect {
   request: (req: ITcConnectReq) => Promise<ITcConnectRes>;
@@ -36,29 +33,34 @@ class TcConnect implements ITcConnect {
     try {
       await this.axios.post('/data', {
         id: uniqueID,
-        data: req.data,
+        data: JSON.stringify({ method: req.method, ...req.data }),
       });
-      switch (req.method) {
-        default:
-          let tcRes;
-          while (true) {
-            if (this.currentUniqueID !== uniqueID) {
+
+      let tcRes;
+      while (true) {
+        // remove old request
+        if (this.currentUniqueID !== uniqueID) {
+          break;
+        }
+        // sleep 2s
+        await this.sleep(2000);
+        // call get result from wallet
+        try {
+          const res = await this.axios.get(`/result?id=${uniqueID}`);
+          const data = res.data.data;
+          if (data && data.id && data.id === uniqueID) {
+            const jsonStr = data.data; // JSON string
+            const jsonData = JSON.parse(jsonStr);
+            if (jsonData && jsonData.method === req.method) {
+              tcRes = jsonStr;
               break;
             }
-            await this.sleep(2000); // 1s
-            try {
-              const res = await this.axios.get(`/result?id=${uniqueID}`);
-              const data = res.data.data;
-              if (data && data.id) {
-                tcRes = data;
-                break;
-              }
-            } catch (error) {
-              continue;
-            }
           }
-          return tcRes;
+        } catch (error) {
+          continue;
+        }
       }
+      return tcRes;
     } catch (error) {
       throw error;
     }

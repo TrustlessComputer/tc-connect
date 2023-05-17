@@ -1,16 +1,13 @@
 declare enum RequestMethod {
-    user = 0,
+    account = 0,
     sign = 1
 }
 interface ITcConnectReq {
     method: RequestMethod;
-    data: string;
+    data?: JSON;
 }
 interface ITcConnectRes {
     data: string;
-    id: string;
-    message: string;
-    site: string;
 }
 interface ITcConnect {
     request: (req: ITcConnectReq) => Promise<ITcConnectRes>;
