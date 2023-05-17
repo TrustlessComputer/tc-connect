@@ -52,7 +52,6 @@ class SignEventEmitter extends BaseEventEmitter {
                     const data = res.data.data;
                     if (data && data.id) {
                         this.emit('resultSignMessageData', data);
-                        this.disconnect();
                     }
                 }
                 catch (error) { }
