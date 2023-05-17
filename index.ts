@@ -26,9 +26,14 @@ abstract class BaseEventEmitter extends EventEmitter {
     abstract listen(): void;
 }
 
-
+export interface ISignMessageData {
+    data: string;
+    id: string;
+    message: string;
+    site: string;
+}
 interface SignEventEvents {
-    resultSignMessageData: (data: any) => void;
+    resultSignMessageData: (data: ISignMessageData) => void;
 }
 
 declare interface SignEventEmitter {
@@ -84,8 +89,9 @@ class SignEventEmitter extends BaseEventEmitter {
             try {
                 const res = await this.axios.get(`/result?id=${this.uniqueID}`);
                 const data = res.data.data;
-                if (data) {
+                if (data && data.id) {
                     this.emit('resultSignMessageData', data);
+                    this.disconnect()
                 }
             } catch (error) {}
         }
