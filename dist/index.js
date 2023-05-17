@@ -14,17 +14,23 @@ var RequestMethod;
 exports.RequestMethod = RequestMethod;
 class TcConnect {
     constructor(baseURL) {
+        this.cancelOldRequest = true;
         this.request = async (req) => {
+            this.cancelOldRequest = true;
             const uniqueID = this.generateUniqueID();
             try {
                 await this.axios.post('/data', {
                     id: uniqueID,
                     data: req.data,
                 });
+                this.cancelOldRequest = false;
                 switch (req.method) {
                     default:
                         let tcRes;
                         while (true) {
+                            if (this.cancelOldRequest) {
+                                break;
+                            }
                             await this.sleep(2000); // 1s
                             try {
                                 const res = await this.axios.get(`/result?id=${uniqueID}`);
