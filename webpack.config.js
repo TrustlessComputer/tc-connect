@@ -10,11 +10,17 @@ module.exports = {
   mode: isProduction ? NODE_ENV_PRODUCTION : NODE_ENV_DEVELOPMENT,
   entry: ['./index.ts'],
   output: {
-    filename: 'index.js',
-    library: 'TcConnect',
-    libraryTarget: 'var',
-    path: path.resolve(process.cwd(), 'dist'),
+    path: path.join(__dirname, 'dist'),
+    filename: path.join('[name]', 'index.js'),
+    library: 'tc-connect',
+    libraryTarget: 'umd', // exposes and know when to use module.exports or exports.
   },
+  // output: {
+  //   filename: 'index.js',
+  //   library: 'tc_connect',
+  //   libraryTarget: 'var',
+  //   path: path.resolve(process.cwd(), 'dist'),
+  // },
   plugins: [
     new webpack.ProvidePlugin({
       process: 'process/browser',
