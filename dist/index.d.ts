@@ -22,4 +22,4 @@ declare class TcConnect implements ITcConnect {
     private sleep;
     private generateUniqueID;
 }
-export { TcConnect, ITcConnect, ITcConnectReq, ITcConnectRes };
+export { TcConnect, ITcConnect, ITcConnectReq, ITcConnectRes, RequestMethod };

@@ -70,4 +70,4 @@ class TcConnect implements ITcConnect {
   };
 }
 
-export { TcConnect, ITcConnect, ITcConnectReq, ITcConnectRes };
+export { TcConnect, ITcConnect, ITcConnectReq, ITcConnectRes, RequestMethod };
