@@ -6,9 +6,16 @@ enum RequestMethod {
   account,
   sign,
 }
+
+interface SignRequestPayload {
+  calldata: string;
+  from?: string;
+  to?: string;
+  value?: string;
+}
 interface ITcConnectReq {
   method: RequestMethod;
-  data?: JSON;
+  data?: SignRequestPayload | JSON;
 }
 interface ITcConnectRes {
   data: string;
@@ -77,4 +84,4 @@ class TcConnect implements ITcConnect {
   };
 }
 
-export { TcConnect, ITcConnect, ITcConnectReq, ITcConnectRes, RequestMethod };
+export { TcConnect, ITcConnect, ITcConnectReq, ITcConnectRes, RequestMethod, SignRequestPayload };
