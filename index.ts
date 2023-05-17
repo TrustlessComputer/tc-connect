@@ -22,7 +22,7 @@ interface ITcConnect {
 
 class TcConnect implements ITcConnect {
   private axios: AxiosInstance;
-  private cancelOldRequest: boolean = true;
+  private currentUniqueID?: string;
 
   constructor(baseURL?: string) {
     this.axios = axios.create({
@@ -31,19 +31,18 @@ class TcConnect implements ITcConnect {
   }
 
   request = async (req: ITcConnectReq) => {
-    this.cancelOldRequest = true;
     const uniqueID = this.generateUniqueID();
+    this.currentUniqueID = uniqueID;
     try {
       await this.axios.post('/data', {
         id: uniqueID,
         data: req.data,
       });
-      this.cancelOldRequest = false;
       switch (req.method) {
         default:
           let tcRes;
           while (true) {
-            if (this.cancelOldRequest) {
+            if (this.currentUniqueID !== uniqueID) {
               break;
             }
             await this.sleep(2000); // 1s

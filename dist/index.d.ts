@@ -17,7 +17,7 @@ interface ITcConnect {
 }
 declare class TcConnect implements ITcConnect {
     private axios;
-    private cancelOldRequest;
+    private currentUniqueID?;
     constructor(baseURL?: string);
     request: (req: ITcConnectReq) => Promise<any>;
     private sleep;
