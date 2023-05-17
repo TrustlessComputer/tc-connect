@@ -3,16 +3,28 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.TcConnect = exports.RequestMethod = void 0;
+exports.RequestMethod = exports.TcConnect = void 0;
 const axios_1 = __importDefault(require("axios"));
 const BASE_URL = 'https://wadary.regtest.trustless.computer/relayer';
 var RequestMethod;
 (function (RequestMethod) {
     RequestMethod[RequestMethod["user"] = 0] = "user";
     RequestMethod[RequestMethod["sign"] = 1] = "sign";
-})(RequestMethod = exports.RequestMethod || (exports.RequestMethod = {}));
-class TcConnect {
+})(RequestMethod || (RequestMethod = {}));
+exports.RequestMethod = RequestMethod;
+class BaseConnect {
     constructor(baseURL) {
+        this.axiosInstance = axios_1.default.create({
+            baseURL,
+        });
+    }
+    get axios() {
+        return this.axiosInstance;
+    }
+}
+class TcConnect extends BaseConnect {
+    constructor() {
+        super(...arguments);
         this.request = async (req) => {
             const uniqueID = this.generateUniqueID();
             try {
@@ -52,9 +64,14 @@ class TcConnect {
             const randomness = Math.random().toString(36).substr(2);
             return dateString + randomness;
         };
-        this.axios = axios_1.default.create({
-            baseURL: baseURL || BASE_URL,
-        });
+    }
+    static getInstance(baseURL) {
+        if (this.instance) {
+            return this.instance;
+        }
+        const tcConnect = new TcConnect(baseURL || BASE_URL);
+        this.instance = tcConnect;
+        return tcConnect;
     }
 }
 exports.TcConnect = TcConnect;

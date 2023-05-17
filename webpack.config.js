@@ -11,8 +11,8 @@ module.exports = {
   entry: ['./index.ts'],
   output: {
     filename: 'index.js',
-    library: 'tc-connect',
-    libraryTarget: 'umd',
+    library: 'tc_connect',
+    libraryTarget: 'var',
     path: path.resolve(process.cwd(), 'dist'),
   },
   plugins: [

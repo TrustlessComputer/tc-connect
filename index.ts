@@ -2,15 +2,15 @@ import axios, { AxiosInstance } from 'axios';
 
 const BASE_URL = 'https://wadary.regtest.trustless.computer/relayer';
 
-export enum RequestMethod {
+enum RequestMethod {
   user,
   sign,
 }
-export interface ITcConnectReq {
+interface ITcConnectReq {
   method: RequestMethod;
   data: string;
 }
-export interface ITcConnectRes {
+interface ITcConnectRes {
   data: string;
   id: string;
   message: string;
@@ -20,13 +20,30 @@ interface ITcConnect {
   request: (req: ITcConnectReq) => Promise<ITcConnectRes>;
 }
 
-class TcConnect implements ITcConnect {
-  private axios: AxiosInstance;
+abstract class BaseConnect {
+  private axiosInstance: AxiosInstance;
 
-  constructor(baseURL?: string) {
-    this.axios = axios.create({
-      baseURL: baseURL || BASE_URL,
+  constructor(baseURL: string) {
+    this.axiosInstance = axios.create({
+      baseURL,
     });
+  }
+
+  get axios(): AxiosInstance {
+    return this.axiosInstance;
+  }
+}
+
+class TcConnect extends BaseConnect implements ITcConnect {
+  private static instance?: TcConnect;
+
+  public static getInstance(baseURL?: string): TcConnect {
+    if (this.instance) {
+      return this.instance;
+    }
+    const tcConnect = new TcConnect(baseURL || BASE_URL);
+    this.instance = tcConnect;
+    return tcConnect;
   }
 
   request = async (req: ITcConnectReq) => {
@@ -70,4 +87,4 @@ class TcConnect implements ITcConnect {
   };
 }
 
-export { TcConnect };
+export { TcConnect, RequestMethod, ITcConnectReq, ITcConnectRes, ITcConnect };
