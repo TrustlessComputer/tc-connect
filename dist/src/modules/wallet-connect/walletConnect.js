@@ -35,7 +35,9 @@ class WalletConnect {
                 try {
                     res = await this.axios.get(`/data?id=${requestID}`);
                     // sleep 2s
-                    await (0, commons_1.sleep)(3000);
+                    if (!res) {
+                        await (0, commons_1.sleep)(3000);
+                    }
                 }
                 catch (error) {
                     counter++;
@@ -67,6 +69,7 @@ class WalletConnect {
             return tcConnectRes;
         };
         this.postResult = async (result) => {
+            console.log('SANG TEST: ', this.currentRequestID);
             try {
                 if (this.currentRequestID) {
                     // post request

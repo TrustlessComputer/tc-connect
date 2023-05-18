@@ -51,8 +51,11 @@ class WalletConnect implements IWalletConnect {
       let res;
       try {
         res = await this.axios.get(`/data?id=${requestID}`);
+
         // sleep 2s
-        await sleep(3000);
+        if (!res) {
+          await sleep(3000);
+        }
       } catch (error) {
         counter++;
         if (counter === 4) {
@@ -84,6 +87,7 @@ class WalletConnect implements IWalletConnect {
   };
 
   private postResult = async (result: any) => {
+    console.log('SANG TEST: ', this.currentRequestID)
     try {
       if (this.currentRequestID) {
         // post request
