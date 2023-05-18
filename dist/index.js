@@ -21,10 +21,11 @@ class TcConnect {
                     id: requestID,
                     data: JSON.stringify({ method: RequestMethod.account }),
                 });
-                return await this.request(requestID, RequestMethod.account);
+                const accont = await this.request(requestID, RequestMethod.account);
+                return accont;
             }
             catch (error) {
-                throw new Error('Can not request.');
+                throw error;
             }
         };
         this.requestSign = async (req) => {
@@ -35,10 +36,11 @@ class TcConnect {
                     id: requestID,
                     data: JSON.stringify({ method: RequestMethod.sign, ...req }),
                 });
-                return await this.request(requestID, RequestMethod.sign);
+                const sign = await this.request(requestID, RequestMethod.sign);
+                return sign;
             }
             catch (error) {
-                throw new Error('Can not request.');
+                throw error;
             }
         };
         this.generateRequestId = () => {
@@ -64,6 +66,7 @@ class TcConnect {
                     // check equal request id and has data
                     if (resultRequestId && resultRequestId === requestID && resultData) {
                         const tcRes = JSON.parse(resultData);
+                        console.log('===tcRes===', tcRes);
                         if (tcRes && tcRes.method === method) {
                             if (tcRes.isCancel) {
                                 throw new Error('Cancel request.');
