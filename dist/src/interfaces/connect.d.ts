@@ -4,12 +4,12 @@ declare enum RequestMethod {
 }
 interface IRequestConnectResp {
     method: RequestMethod;
-    isCancel: boolean;
+    isCancel?: boolean;
     errMsg?: string;
 }
 interface IRequestAccountResp extends IRequestConnectResp {
     tcAddress: string;
-    btcAddress: number;
+    btcAddress: string;
 }
 type Target = "_blank" | "_parent" | "_self" | "_top";
 interface IRequestPayload {

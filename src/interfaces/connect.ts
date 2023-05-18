@@ -6,14 +6,14 @@ enum RequestMethod {
 // Base connect resp
 interface IRequestConnectResp {
   method: RequestMethod;
-  isCancel: boolean;
+  isCancel?: boolean;
   errMsg?: string;
 }
 
 // Request account
 interface IRequestAccountResp extends IRequestConnectResp {
   tcAddress: string;
-  btcAddress: number;
+  btcAddress: string;
 }
 
 
