@@ -15,5 +15,6 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(require("./src/modules/dapp-connect"), exports);
+__exportStar(require("./src/modules/wallet-connect"), exports);
 __exportStar(require("./src/interfaces/connect"), exports);
 //# sourceMappingURL=index.js.map
