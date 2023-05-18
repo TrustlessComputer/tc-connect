@@ -28,15 +28,4 @@ interface ITcConnect {
     requestAccount: () => Promise<IRequestAccountResp>;
     requestSign: (req: IRequestSignPayload) => Promise<IRequestSignResp>;
 }
-declare class TcConnect implements ITcConnect {
-    private axios;
-    private currentRequestID?;
-    constructor(baseURL?: string);
-    requestAccount: () => Promise<any>;
-    requestSign: (req: IRequestSignPayload) => Promise<any>;
-    private generateRequestId;
-    private request;
-    private sleep;
-    private generateUniqueID;
-}
-export { TcConnect, ITcConnect, ITcConnectResp, IRequestAccountResp, IRequestSignPayload, IRequestSignResp, };
+export { ITcConnect, RequestMethod, ITcConnectResp, IRequestAccountResp, IRequestSignPayload, IRequestSignResp, };

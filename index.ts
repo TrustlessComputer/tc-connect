@@ -1,17 +1,19 @@
-import {
+import TcConnect, {
   ITcConnect,
-  TcConnect,
   ITcConnectResp,
   IRequestAccountResp,
   IRequestSignPayload,
   IRequestSignResp,
-} from './src/tc-connect';
+  RequestMethod,
+} from './src/modules/tc-connect';
 
 export {
-  TcConnect,
   ITcConnect,
+  RequestMethod,
   ITcConnectResp,
   IRequestAccountResp,
   IRequestSignPayload,
   IRequestSignResp,
 };
+
+export default TcConnect;

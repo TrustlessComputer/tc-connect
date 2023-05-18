@@ -3,25 +3,22 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.TcConnect = void 0;
 const axios_1 = __importDefault(require("axios"));
-const BASE_URL = 'https://wadary.regtest.trustless.computer/relayer';
-var RequestMethod;
-(function (RequestMethod) {
-    RequestMethod["account"] = "account";
-    RequestMethod["sign"] = "sign";
-})(RequestMethod || (RequestMethod = {}));
+const configs_1 = require("../../constants/configs");
+const commons_1 = require("../../utils/commons");
+const types_1 = require("./types");
 class TcConnect {
-    constructor(baseURL) {
+    constructor(baseURL, walletURL) {
+        this.walletURL = configs_1.WALLET_URL;
         this.requestAccount = async () => {
             try {
                 const requestID = this.generateRequestId();
                 // post request
                 await this.axios.post('/data', {
                     id: requestID,
-                    data: JSON.stringify({ method: RequestMethod.account }),
+                    data: JSON.stringify({ method: types_1.RequestMethod.account }),
                 });
-                const accont = await this.request(requestID, RequestMethod.account);
+                const accont = await this.request(requestID, types_1.RequestMethod.account);
                 return accont;
             }
             catch (error) {
@@ -34,9 +31,9 @@ class TcConnect {
                 // post request
                 await this.axios.post('/data', {
                     id: requestID,
-                    data: JSON.stringify({ method: RequestMethod.sign, ...req }),
+                    data: JSON.stringify({ method: types_1.RequestMethod.sign, ...req }),
                 });
-                const sign = await this.request(requestID, RequestMethod.sign);
+                const sign = await this.request(requestID, types_1.RequestMethod.sign);
                 return sign;
             }
             catch (error) {
@@ -44,8 +41,9 @@ class TcConnect {
             }
         };
         this.generateRequestId = () => {
-            const requestID = this.generateUniqueID();
+            const requestID = (0, commons_1.generateUniqueID)();
             this.currentRequestID = requestID;
+            window.open(`${this.walletURL}?requestID=${requestID}`);
             return requestID;
         };
         this.request = async (requestID, method) => {
@@ -56,7 +54,7 @@ class TcConnect {
                     break;
                 }
                 // sleep 2s
-                await this.sleep(2000);
+                await (0, commons_1.sleep)(2000);
                 // handle get result from wallet
                 let res;
                 try {
@@ -87,18 +85,13 @@ class TcConnect {
             }
             return tcConnectRes;
         };
-        this.sleep = (ms) => {
-            return new Promise((resolve) => setTimeout(resolve, ms));
-        };
-        this.generateUniqueID = () => {
-            const dateString = Date.now().toString(36);
-            const randomness = Math.random().toString(36).substr(2);
-            return dateString + randomness;
-        };
         this.axios = axios_1.default.create({
-            baseURL: baseURL || BASE_URL,
+            baseURL: baseURL || configs_1.BASE_URL,
         });
+        if (walletURL) {
+            this.walletURL = walletURL;
+        }
     }
 }
-exports.TcConnect = TcConnect;
-//# sourceMappingURL=index.js.map
+exports.default = TcConnect;
+//# sourceMappingURL=tcConnect.js.map
