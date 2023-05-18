@@ -6,6 +6,7 @@ import {
 
 interface IWalletConnect {
   getRequest: (requestID: string) => Promise<IResultConnectResp>;
+  cancelGetRequest: () => void;
   postResultAccount: (result: IRequestAccountResp) => void;
   postResultSign: (result: IRequestSignResp) => void;
 }

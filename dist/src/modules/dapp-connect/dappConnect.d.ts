@@ -7,6 +7,7 @@ declare class DappConnect implements IDappConnect {
     constructor(baseURL?: string, walletURL?: string);
     requestAccount: (payload: IRequestPayload) => Promise<IRequestAccountResp>;
     requestSign: ({ target, ...rest }: IRequestSignPayload) => Promise<IRequestSignResp>;
+    cancelRequest: () => void;
     private generateRequestId;
     private request;
 }

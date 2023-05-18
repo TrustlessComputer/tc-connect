@@ -13,6 +13,9 @@ class WalletConnect {
             this.currentRequestID = requestID;
             return await this.listen(requestID);
         };
+        this.cancelGetRequest = () => {
+            this.currentRequestID = undefined;
+        };
         this.postResultAccount = async (result) => {
             return await this.postResult(result);
         };

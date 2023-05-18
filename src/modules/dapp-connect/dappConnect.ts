@@ -3,7 +3,8 @@ import {
   RequestMethod,
   IRequestAccountResp,
   IRequestSignPayload,
-  IRequestSignResp, IRequestPayload,
+  IRequestSignResp,
+  IRequestPayload,
 } from '../../interfaces/connect';
 import { WALLET_URL, BASE_URL } from '../../constants/configs';
 import { sleep, generateUniqueID } from '../../utils/commons';
@@ -54,6 +55,10 @@ class DappConnect implements IDappConnect {
     } catch (error) {
       throw error;
     }
+  };
+
+  cancelRequest = () => {
+    this.currentRequestID = undefined;
   };
 
   private generateRequestId = (payload: IRequestPayload) => {

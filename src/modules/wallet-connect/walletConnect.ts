@@ -23,6 +23,10 @@ class WalletConnect implements IWalletConnect {
     return await this.listen(requestID);
   };
 
+  cancelGetRequest = () => {
+    this.currentRequestID = undefined;
+  };
+
   postResultAccount = async (result: IRequestAccountResp) => {
     return await this.postResult(result);
   };

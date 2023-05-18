@@ -5,6 +5,7 @@ declare class WalletConnect implements IWalletConnect {
     private currentRequestID?;
     constructor(baseURL?: string);
     getRequest: (requestID: string) => Promise<IResultConnectResp>;
+    cancelGetRequest: () => void;
     postResultAccount: (result: IRequestAccountResp) => Promise<import("axios").AxiosResponse<any, any>>;
     postResultSign: (result: IRequestSignResp) => Promise<import("axios").AxiosResponse<any, any>>;
     private listen;

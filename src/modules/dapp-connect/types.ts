@@ -8,6 +8,7 @@ import {
 interface IDappConnect {
   requestAccount: (req: IRequestPayload) => Promise<IRequestAccountResp>;
   requestSign: (req: IRequestSignPayload) => Promise<IRequestSignResp>;
+  cancelRequest: () => void;
 }
 
 export { IDappConnect };

@@ -41,6 +41,9 @@ class DappConnect {
                 throw error;
             }
         };
+        this.cancelRequest = () => {
+            this.currentRequestID = undefined;
+        };
         this.generateRequestId = (payload) => {
             const requestID = (0, commons_1.generateUniqueID)();
             this.currentRequestID = requestID;
