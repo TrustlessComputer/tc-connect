@@ -5,7 +5,7 @@ import {
   IRequestAccountResp,
   IRequestSignPayload,
   IRequestSignResp,
-} from 'src/tc-connect';
+} from './src/tc-connect';
 
 export {
   TcConnect,
