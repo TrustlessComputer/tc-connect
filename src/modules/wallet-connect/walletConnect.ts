@@ -40,19 +40,26 @@ class WalletConnect implements IWalletConnect {
 
   private listen = async (requestID: string) => {
     let tcConnectRes;
+    let counter = 0;
     while (true) {
       // remove old listen
       if (this.currentRequestID !== requestID) {
         break;
       }
-      // sleep 2s
-      await sleep(2000);
 
       // handle get data from dapp
       let res;
       try {
         res = await this.axios.get(`/data?id=${requestID}`);
+        // sleep 2s
+        await sleep(3000);
       } catch (error) {
+        counter++;
+        if (counter === 4) {
+          throw new Error(`Can get request ${requestID}.`)
+        }
+        // sleep 2s
+        await sleep(3000);
         continue;
       }
       if (res && res.data && res.data.data) {
