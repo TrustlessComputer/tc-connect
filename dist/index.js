@@ -25,6 +25,7 @@ class TcConnect {
                 return accont;
             }
             catch (error) {
+                console.log('===error===', error);
                 throw error;
             }
         };
@@ -57,30 +58,34 @@ class TcConnect {
                 }
                 // sleep 2s
                 await this.sleep(2000);
-                // call get result from wallet
+                // handle get result from wallet
+                let res;
                 try {
-                    const res = await this.axios.get(`/result?id=${requestID}`);
+                    res = await this.axios.get(`/result?id=${requestID}`);
+                }
+                catch (error) {
+                    continue;
+                }
+                if (res && res.data && res.data.data) {
                     const data = res.data.data;
                     const resultRequestId = data.id;
                     const resultData = data.data; // JSON string
                     // check equal request id and has data
                     if (resultRequestId && resultRequestId === requestID && resultData) {
                         const tcRes = JSON.parse(resultData);
-                        console.log('===tcRes===', tcRes);
                         if (tcRes && tcRes.method === method) {
                             if (tcRes.isCancel) {
+                                console.log('===throw===', tcRes);
                                 throw new Error('Cancel request.');
                             }
                             if (tcRes.errMsg) {
+                                console.log('===throw===', tcRes);
                                 throw new Error(tcRes.errMsg);
                             }
                             tcConnectRes = tcRes;
                             break;
                         }
                     }
-                }
-                catch (error) {
-                    continue;
                 }
             }
             return tcConnectRes;
