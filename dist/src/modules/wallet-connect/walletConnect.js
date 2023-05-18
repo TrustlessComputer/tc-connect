@@ -69,7 +69,6 @@ class WalletConnect {
             return tcConnectRes;
         };
         this.postResult = async (result) => {
-            console.log('SANG TEST: ', this.currentRequestID);
             try {
                 if (this.currentRequestID) {
                     // post request

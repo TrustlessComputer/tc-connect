@@ -87,7 +87,6 @@ class WalletConnect implements IWalletConnect {
   };
 
   private postResult = async (result: any) => {
-    console.log('SANG TEST: ', this.currentRequestID)
     try {
       if (this.currentRequestID) {
         // post request
