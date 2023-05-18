@@ -3,12 +3,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.TcConnect = void 0;
+exports.DappConnect = void 0;
 const axios_1 = __importDefault(require("axios"));
+const connect_1 = require("../../interfaces/connect");
 const configs_1 = require("../../constants/configs");
 const commons_1 = require("../../utils/commons");
-const types_1 = require("./types");
-class TcConnect {
+class DappConnect {
     constructor(baseURL, walletURL) {
         this.walletURL = configs_1.WALLET_URL;
         this.requestAccount = async () => {
@@ -17,9 +17,9 @@ class TcConnect {
                 // post request
                 await this.axios.post('/data', {
                     id: requestID,
-                    data: JSON.stringify({ method: types_1.RequestMethod.account }),
+                    data: JSON.stringify({ method: connect_1.RequestMethod.account }),
                 });
-                const accont = await this.request(requestID, types_1.RequestMethod.account);
+                const accont = await this.request(requestID, connect_1.RequestMethod.account);
                 return accont;
             }
             catch (error) {
@@ -32,9 +32,9 @@ class TcConnect {
                 // post request
                 await this.axios.post('/data', {
                     id: requestID,
-                    data: JSON.stringify({ method: types_1.RequestMethod.sign, ...req }),
+                    data: JSON.stringify({ method: connect_1.RequestMethod.sign, ...req }),
                 });
-                const sign = await this.request(requestID, types_1.RequestMethod.sign);
+                const sign = await this.request(requestID, connect_1.RequestMethod.sign);
                 return sign;
             }
             catch (error) {
@@ -94,5 +94,5 @@ class TcConnect {
         }
     }
 }
-exports.TcConnect = TcConnect;
-//# sourceMappingURL=tcConnect.js.map
+exports.DappConnect = DappConnect;
+//# sourceMappingURL=dappConnect.js.map

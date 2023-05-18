@@ -1,1 +1,2 @@
-export * from './src/modules/tc-connect';
+export * from './src/modules/dapp-connect';
+export * from './src/interfaces/connect';

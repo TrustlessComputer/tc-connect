@@ -1,0 +1,1 @@
+export { DappConnect } from './dappConnect';

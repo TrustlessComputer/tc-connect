@@ -1,9 +1,15 @@
 import axios, { AxiosInstance } from 'axios';
+import {
+  RequestMethod,
+  IRequestAccountResp,
+  IRequestSignPayload,
+  IRequestSignResp,
+} from '../../interfaces/connect';
 import { WALLET_URL, BASE_URL } from '../../constants/configs';
 import { sleep, generateUniqueID } from '../../utils/commons';
-import { RequestMethod, ITcConnect, IRequestSignPayload } from './types';
+import { IDappConnect } from './types';
 
-class TcConnect implements ITcConnect {
+class DappConnect implements IDappConnect {
   private axios: AxiosInstance;
   private currentRequestID?: string;
   private walletURL = WALLET_URL;
@@ -18,7 +24,7 @@ class TcConnect implements ITcConnect {
     }
   }
 
-  requestAccount = async () => {
+  requestAccount = async (): Promise<IRequestAccountResp> => {
     try {
       const requestID = this.generateRequestId();
 
@@ -34,7 +40,7 @@ class TcConnect implements ITcConnect {
     }
   };
 
-  requestSign = async (req: IRequestSignPayload) => {
+  requestSign = async (req: IRequestSignPayload): Promise<IRequestSignResp> => {
     try {
       const requestID = this.generateRequestId();
 
@@ -98,4 +104,4 @@ class TcConnect implements ITcConnect {
   };
 }
 
-export { TcConnect };
+export { DappConnect };

@@ -7,4 +7,4 @@ var RequestMethod;
     RequestMethod["sign"] = "sign";
 })(RequestMethod || (RequestMethod = {}));
 exports.RequestMethod = RequestMethod;
-//# sourceMappingURL=types.js.map
+//# sourceMappingURL=connect.js.map

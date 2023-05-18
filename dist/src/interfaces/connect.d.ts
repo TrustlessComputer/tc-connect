@@ -2,12 +2,12 @@ declare enum RequestMethod {
     account = "account",
     sign = "sign"
 }
-interface ITcConnectResp {
+interface IConnectResp {
     method: RequestMethod;
     isCancel: boolean;
     errMsg?: string;
 }
-interface IRequestAccountResp extends ITcConnectResp {
+interface IRequestAccountResp extends IConnectResp {
     tcAddress: string;
     btcAddress: number;
 }
@@ -18,14 +18,10 @@ interface IRequestSignPayload {
     to?: string;
     value?: string;
 }
-interface IRequestSignResp extends ITcConnectResp {
+interface IRequestSignResp extends IConnectResp {
     hash: string;
     nonce: number;
     to?: string;
     from?: string;
 }
-interface ITcConnect {
-    requestAccount: () => Promise<IRequestAccountResp>;
-    requestSign: (req: IRequestSignPayload) => Promise<IRequestSignResp>;
-}
-export { ITcConnect, RequestMethod, ITcConnectResp, IRequestAccountResp, IRequestSignPayload, IRequestSignResp, };
+export { RequestMethod, IRequestAccountResp, IRequestSignPayload, IRequestSignResp };
