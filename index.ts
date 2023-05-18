@@ -8,6 +8,7 @@ import TcConnect, {
 } from './src/modules/tc-connect';
 
 export {
+  TcConnect,
   ITcConnect,
   RequestMethod,
   ITcConnectResp,
@@ -15,5 +16,3 @@ export {
   IRequestSignPayload,
   IRequestSignResp,
 };
-
-export default TcConnect;

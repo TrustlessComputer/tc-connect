@@ -23,8 +23,8 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.RequestMethod = void 0;
+exports.RequestMethod = exports.TcConnect = void 0;
 const tc_connect_1 = __importStar(require("./src/modules/tc-connect"));
+exports.TcConnect = tc_connect_1.default;
 Object.defineProperty(exports, "RequestMethod", { enumerable: true, get: function () { return tc_connect_1.RequestMethod; } });
-exports.default = tc_connect_1.default;
 //# sourceMappingURL=index.js.map
