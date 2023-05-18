@@ -3,7 +3,7 @@ import { IWalletConnect } from './types';
 declare class WalletConnect implements IWalletConnect {
     private axios;
     private currentRequestID?;
-    constructor(baseURL?: string);
+    constructor(baseURL?: string, requestID?: string);
     getRequest: (requestID: string) => Promise<IResultConnectResp>;
     cancelGetRequest: () => void;
     postResultAccount: (result: IRequestAccountResp) => Promise<import("axios").AxiosResponse<any, any>>;

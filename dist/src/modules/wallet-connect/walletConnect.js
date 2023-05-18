@@ -8,7 +8,7 @@ const axios_1 = __importDefault(require("axios"));
 const configs_1 = require("../../constants/configs");
 const commons_1 = require("../../utils/commons");
 class WalletConnect {
-    constructor(baseURL) {
+    constructor(baseURL, requestID) {
         this.getRequest = async (requestID) => {
             this.currentRequestID = requestID;
             return await this.listen(requestID);
@@ -75,6 +75,7 @@ class WalletConnect {
         this.axios = axios_1.default.create({
             baseURL: baseURL || configs_1.BASE_URL,
         });
+        this.currentRequestID = requestID;
     }
 }
 exports.WalletConnect = WalletConnect;

@@ -12,10 +12,13 @@ class WalletConnect implements IWalletConnect {
   private axios: AxiosInstance;
   private currentRequestID?: string;
 
-  constructor(baseURL?: string) {
+  constructor(baseURL?: string, requestID?: string) {
+
     this.axios = axios.create({
       baseURL: baseURL || BASE_URL,
     });
+
+    this.currentRequestID = requestID;
   }
 
   getRequest = async (requestID: string): Promise<IResultConnectResp> => {
