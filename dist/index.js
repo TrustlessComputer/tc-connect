@@ -25,7 +25,6 @@ class TcConnect {
                 return accont;
             }
             catch (error) {
-                console.log('===error===', error);
                 throw error;
             }
         };
@@ -75,11 +74,9 @@ class TcConnect {
                         const tcRes = JSON.parse(resultData);
                         if (tcRes && tcRes.method === method) {
                             if (tcRes.isCancel) {
-                                console.log('===throw===', tcRes);
                                 throw new Error('Cancel request.');
                             }
                             if (tcRes.errMsg) {
-                                console.log('===throw===', tcRes);
                                 throw new Error(tcRes.errMsg);
                             }
                             tcConnectRes = tcRes;
