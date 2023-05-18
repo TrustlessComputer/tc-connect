@@ -1,2 +1,2 @@
-export { default } from './tcConnect';
+export { TcConnect } from './tcConnect';
 export * from './types';

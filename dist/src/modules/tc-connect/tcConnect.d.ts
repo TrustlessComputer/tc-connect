@@ -9,4 +9,4 @@ declare class TcConnect implements ITcConnect {
     private generateRequestId;
     private request;
 }
-export default TcConnect;
+export { TcConnect };

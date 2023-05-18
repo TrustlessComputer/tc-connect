@@ -98,4 +98,4 @@ class TcConnect implements ITcConnect {
   };
 }
 
-export default TcConnect;
+export { TcConnect };
