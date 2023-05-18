@@ -5,6 +5,7 @@
   "files": [
     "dist"
   ],
+  "type": "module",
   "scripts": {
     "test": "jest",
     "build-debug": "webpack --mode development",
