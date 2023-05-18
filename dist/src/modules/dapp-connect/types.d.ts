@@ -1,6 +1,6 @@
-import { IRequestAccountResp, IRequestSignPayload, IRequestSignResp } from '../../interfaces/connect';
+import { IRequestAccountResp, IRequestPayload, IRequestSignPayload, IRequestSignResp } from '../../interfaces/connect';
 interface IDappConnect {
-    requestAccount: () => Promise<IRequestAccountResp>;
+    requestAccount: (req: IRequestPayload) => Promise<IRequestAccountResp>;
     requestSign: (req: IRequestSignPayload) => Promise<IRequestSignResp>;
 }
 export { IDappConnect };

@@ -11,7 +11,11 @@ interface IRequestAccountResp extends IRequestConnectResp {
     tcAddress: string;
     btcAddress: number;
 }
-interface IRequestSignPayload {
+type Target = "_blank" | "_parent" | "_self" | "_top";
+interface IRequestPayload {
+    target: Target;
+}
+interface IRequestSignPayload extends IRequestPayload {
     isInscribe: boolean;
     calldata: string;
     from?: string;
@@ -24,6 +28,6 @@ interface IRequestSignResp extends IRequestConnectResp {
     to?: string;
     from?: string;
 }
-export { RequestMethod, IRequestConnectResp, IRequestAccountResp, IRequestSignPayload, IRequestSignResp, };
+export { RequestMethod, IRequestConnectResp, IRequestAccountResp, IRequestSignPayload, IRequestSignResp, IRequestPayload, };
 type IResultConnectResp = RequestMethod & IRequestSignPayload;
 export { IResultConnectResp };

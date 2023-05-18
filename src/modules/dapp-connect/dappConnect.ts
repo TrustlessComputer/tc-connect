@@ -3,7 +3,7 @@ import {
   RequestMethod,
   IRequestAccountResp,
   IRequestSignPayload,
-  IRequestSignResp,
+  IRequestSignResp, IRequestPayload,
 } from '../../interfaces/connect';
 import { WALLET_URL, BASE_URL } from '../../constants/configs';
 import { sleep, generateUniqueID } from '../../utils/commons';
@@ -24,9 +24,9 @@ class DappConnect implements IDappConnect {
     }
   }
 
-  requestAccount = async (): Promise<IRequestAccountResp> => {
+  requestAccount = async (payload: IRequestPayload): Promise<IRequestAccountResp> => {
     try {
-      const requestID = this.generateRequestId();
+      const requestID = this.generateRequestId(payload);
 
       // post request
       await this.axios.post('/data', {
@@ -40,14 +40,14 @@ class DappConnect implements IDappConnect {
     }
   };
 
-  requestSign = async (req: IRequestSignPayload): Promise<IRequestSignResp> => {
+  requestSign = async ({ target, ...rest }: IRequestSignPayload): Promise<IRequestSignResp> => {
     try {
-      const requestID = this.generateRequestId();
+      const requestID = this.generateRequestId({ target });
 
       // post request
       await this.axios.post('/data', {
         id: requestID,
-        data: JSON.stringify({ method: RequestMethod.sign, ...req }),
+        data: JSON.stringify({ method: RequestMethod.sign, ...rest }),
       });
       const sign = await this.request(requestID, RequestMethod.sign);
       return sign;
@@ -56,10 +56,10 @@ class DappConnect implements IDappConnect {
     }
   };
 
-  private generateRequestId = () => {
+  private generateRequestId = (payload: IRequestPayload) => {
     const requestID = generateUniqueID();
     this.currentRequestID = requestID;
-    window.open(`${this.walletURL}?requestID=${requestID}`);
+    window.open(`${this.walletURL}?requestID=${requestID}`, payload.target);
     return requestID;
   };
 
