@@ -1,6 +1,6 @@
 declare enum RequestMethod {
-    account = 0,
-    sign = 1
+    account = "account",
+    sign = "sign"
 }
 interface ITcConnectResp {
     method: RequestMethod;

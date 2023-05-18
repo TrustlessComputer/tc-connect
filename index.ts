@@ -3,8 +3,8 @@ import axios, { AxiosInstance } from 'axios';
 const BASE_URL = 'https://wadary.regtest.trustless.computer/relayer';
 
 enum RequestMethod {
-  account,
-  sign,
+  account = 'account',
+  sign = 'sign',
 }
 
 interface ITcConnectResp {
@@ -97,10 +97,10 @@ class TcConnect implements ITcConnect {
         const res = await this.axios.get(`/result?id=${requestID}`);
         const data = res.data.data;
         const resultRequestId = data.id;
-        const resultData = data.data;
+        const resultData = data.data; // JSON string
         // check equal request id and has data
         if (resultRequestId && resultRequestId === requestID && resultData) {
-          const tcRes = resultData;
+          const tcRes = JSON.parse(resultData);
           if (tcRes && tcRes.method === method) {
             if (tcRes.isCancel) {
               throw new Error('Cancel request.');
