@@ -11,9 +11,9 @@ const commons_1 = require("../../utils/commons");
 class DappConnect {
     constructor(baseURL, walletURL) {
         this.walletURL = configs_1.WALLET_URL;
-        this.requestAccount = async () => {
+        this.requestAccount = async (payload) => {
             try {
-                const requestID = this.generateRequestId();
+                const requestID = this.generateRequestId(payload);
                 // post request
                 await this.axios.post('/data', {
                     id: requestID,
@@ -26,13 +26,13 @@ class DappConnect {
                 throw error;
             }
         };
-        this.requestSign = async (req) => {
+        this.requestSign = async ({ target, ...rest }) => {
             try {
-                const requestID = this.generateRequestId();
+                const requestID = this.generateRequestId({ target });
                 // post request
                 await this.axios.post('/data', {
                     id: requestID,
-                    data: JSON.stringify({ method: connect_1.RequestMethod.sign, ...req }),
+                    data: JSON.stringify({ method: connect_1.RequestMethod.sign, ...rest }),
                 });
                 const sign = await this.request(requestID, connect_1.RequestMethod.sign);
                 return sign;
@@ -41,10 +41,10 @@ class DappConnect {
                 throw error;
             }
         };
-        this.generateRequestId = () => {
+        this.generateRequestId = (payload) => {
             const requestID = (0, commons_1.generateUniqueID)();
             this.currentRequestID = requestID;
-            window.open(`${this.walletURL}?requestID=${requestID}`);
+            window.open(`${this.walletURL}?requestID=${requestID}`, payload.target);
             return requestID;
         };
         this.request = async (requestID, method) => {
