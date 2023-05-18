@@ -41,6 +41,6 @@ export {
 };
 
 // Result resp
-type IResultConnectResp = RequestMethod & IRequestSignPayload;
+type IResultConnectResp = { method: RequestMethod } & IRequestSignPayload;
 
 export { IResultConnectResp };

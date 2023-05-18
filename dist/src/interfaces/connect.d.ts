@@ -25,5 +25,7 @@ interface IRequestSignResp extends IRequestConnectResp {
     from?: string;
 }
 export { RequestMethod, IRequestConnectResp, IRequestAccountResp, IRequestSignPayload, IRequestSignResp, };
-type IResultConnectResp = RequestMethod & IRequestSignPayload;
+type IResultConnectResp = {
+    method: RequestMethod;
+} & IRequestSignPayload;
 export { IResultConnectResp };
