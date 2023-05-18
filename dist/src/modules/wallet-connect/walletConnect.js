@@ -43,11 +43,15 @@ class WalletConnect {
                     const data = res.data.data;
                     const resultRequestId = data.id;
                     const resultData = data.data; // JSON string
+                    const site = data.site;
                     // check request id and data
                     if (resultRequestId && resultRequestId === requestID && resultData) {
                         const tcRes = JSON.parse(resultData);
                         if (tcRes && tcRes.method) {
-                            tcConnectRes = tcRes;
+                            tcConnectRes = {
+                                ...tcRes,
+                                site
+                            };
                             break;
                         }
                     }

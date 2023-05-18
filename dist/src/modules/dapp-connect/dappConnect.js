@@ -57,8 +57,8 @@ class DappConnect {
                 if (this.currentRequestID !== requestID) {
                     break;
                 }
-                // sleep 2s
-                await (0, commons_1.sleep)(2000);
+                // sleep 3s
+                await (0, commons_1.sleep)(3000);
                 // handle get result from wallet
                 let res;
                 try {

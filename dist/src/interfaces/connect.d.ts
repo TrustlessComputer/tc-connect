@@ -31,5 +31,6 @@ interface IRequestSignResp extends IRequestConnectResp {
 export { RequestMethod, IRequestConnectResp, IRequestAccountResp, IRequestSignPayload, IRequestSignResp, IRequestPayload, };
 type IResultConnectResp = {
     method: RequestMethod;
+    site: string;
 } & IRequestSignPayload;
 export { IResultConnectResp };

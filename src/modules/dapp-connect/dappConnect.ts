@@ -75,8 +75,8 @@ class DappConnect implements IDappConnect {
       if (this.currentRequestID !== requestID) {
         break;
       }
-      // sleep 2s
-      await sleep(2000);
+      // sleep 3s
+      await sleep(3000);
 
       // handle get result from wallet
       let res;
