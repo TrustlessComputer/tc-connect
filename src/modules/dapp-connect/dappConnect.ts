@@ -83,6 +83,9 @@ class DappConnect implements IDappConnect {
       try {
         res = await this.axios.get(`/result?id=${requestID}`);
       } catch (error) {
+        setTimeout(() => {
+          throw new Error('Time out.'); // throw timeout if not resp after 2 mintues
+        }, 2 * 60 * 1000);
         continue;
       }
       if (res && res.data && res.data.data) {
