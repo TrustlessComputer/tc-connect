@@ -26,6 +26,7 @@ interface IRequestPayload {
 // Request sign
 interface IRequestSignPayload extends IRequestPayload {
   isInscribe: boolean;
+  functionName: string;
   calldata: string;
   from?: string;
   to?: string;
