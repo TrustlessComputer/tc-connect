@@ -26,8 +26,11 @@ interface IRequestPayload {
 // Request sign
 interface IRequestSignPayload extends IRequestPayload {
   isInscribe: boolean;
-  functionName?: string;
   calldata: string;
+  functionName?: string; // Approve
+  functionType?: string; // approve(address,uint256)
+  gasPrice?: string;
+  gasLimit?: string;
   from?: string;
   to?: string;
   value?: string;

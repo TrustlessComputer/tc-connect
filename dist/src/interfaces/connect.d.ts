@@ -17,8 +17,11 @@ interface IRequestPayload {
 }
 interface IRequestSignPayload extends IRequestPayload {
     isInscribe: boolean;
-    functionName?: string;
     calldata: string;
+    functionName?: string;
+    functionType?: string;
+    gasPrice?: string;
+    gasLimit?: string;
     from?: string;
     to?: string;
     value?: string;
