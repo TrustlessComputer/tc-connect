@@ -99,8 +99,9 @@ const response = await connection.requestSign({
     gasLimit: undefined,
     functionType: 'Burn',
     functionName: 'burn(address,uint256,string)',
-})
-console.log('Sign transaction response: ', response)
+});
+
+console.log('Sign transaction response: ', response);
 
 ```
 -`target`: window.open type `"_blank" | "_parent" | "_self" | "_top"`
@@ -286,7 +287,9 @@ const response = await connector.requestSign({
     to: "",
     value: "",
     isInscribe: true,
+    functionType: 'Contract Depoloyment',
+    functionName: 'constructor(bytes32[])',
 });
 
-console.log('Deploy contract response: ', response)
+console.log('Deploy contract response: ', response);
 ```
