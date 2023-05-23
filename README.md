@@ -36,7 +36,7 @@ console.log("account", {
 
 # Sign Transaction
 
-## Contract Integrate
+## Contract Integration
 
 ### 1: Define ABI
 ```javascript
