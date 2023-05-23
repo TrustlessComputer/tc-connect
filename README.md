@@ -100,7 +100,7 @@ const response = await connection.requestSign({
     functionType: 'Burn',
     functionName: 'burn(address,uint256,string)',
 })
-console.log('Deploy contract response: ', response)
+console.log('Sign transaction response: ', response)
 
 ```
 -`target`: window.open type `"_blank" | "_parent" | "_self" | "_top"`
