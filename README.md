@@ -112,7 +112,7 @@ console.log('Sign transaction response: ', response);
 
 - `value`: value TC sending transaction, `empty` if not defined. // 1e18 = 1 TC
 
-- `isInscribe`: a flag to check whether to subscribe Bitcoin transaction:
+- `isInscribe`: a flag to check whether to inscribe Bitcoin transaction:
     - `isInscribe = true`: Sign TC and Inscribe Bitcoin transaction.
     - `isInscribe = false`: Sign TC and do not inscribe Bitcoin transaction.
 
