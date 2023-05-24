@@ -21,17 +21,22 @@ const connector = new TC_CONNECT.DappConnect(CONNECT_URL, WALLET_URL);
 
 try {
   const account = await connection.requestAccount({
-    target: "_blank"
+    target: "_blank",
+    redirectURL: "https://dapp_url.com"
   });
   console.log("account", {
     tcAddress: account.tcAddress,
-    btcAddress: account.btcAddress
+    btcAddress: account.btcAddress,
+    accounts: account.accounts
   });
 } catch (e) {
   // todo handle error
   // Reject | Create transaciton error
 }
 ```
+- `target`: window.open type `"_blank" | "_parent" | "_self" | "_top"`
+- `redirectURL`: The url you want to redirect to when the request is successful.
+- `signMessage`: The url you want to redirect to when the request is successful, `undefined` if not defined.
 
 # Sign Transaction
 
@@ -93,6 +98,7 @@ const response = await connection.requestSign({
     calldata: encodeAbi,
     to: toAddress,
     value: "",
+    redirectURL: "https://dapp_url.com",
     isInscribe: false,
     gasPrice: undefined,
     gasLimit: undefined,
@@ -118,6 +124,8 @@ console.log('Sign transaction response: ', response);
 - `gasPrice`: auto estimated, `undefined` if not defined.
 
 - `gasLimit`: auto estimated, `undefined` if not defined.
+
+- `redirectURL`: The url you want to redirect to when the request is successful, `undefined` if not defined.
 
 ## Contract Deployment
 
