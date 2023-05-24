@@ -36,7 +36,7 @@ try {
 ```
 - `target`: window.open type `"_blank" | "_parent" | "_self" | "_top"`
 - `redirectURL`: The url you want to redirect to when the request is successful.
-- `signMessage`: The url you want to redirect to when the request is successful, `undefined` if not defined.
+- `signMessage`: Message for sign, `undefined` if not defined.
 
 # Sign Transaction
 
