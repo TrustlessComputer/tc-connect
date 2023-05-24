@@ -20,7 +20,7 @@ const WALLET_URL = 'https://trustlesswallet.io';
 const connector = new TC_CONNECT.DappConnect(CONNECT_URL, WALLET_URL);
 
 try {
-  const account = await connection.requestAccount({
+  const account = await connector.requestAccount({
     target: "_blank",
   });
   console.log("account", {
@@ -92,7 +92,7 @@ const connector = new TC_CONNECT.DappConnect(CONNECT_URL, WALLET_URL);
 
 const toAddress = "0xFC9a05654a5bBaBBc7c230eB718b363C23d833D2";
 
-const response = await connection.requestSign({
+const response = await connector.requestSign({
     target: "_blank",
     calldata: encodeAbi,
     to: toAddress,
