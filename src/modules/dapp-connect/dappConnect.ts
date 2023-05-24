@@ -25,6 +25,24 @@ class DappConnect implements IDappConnect {
     }
   }
 
+  getResultAccount = async (requestID: string): Promise<IRequestAccountResp> => {
+    try {
+      const account = await this.request(requestID, RequestMethod.account);
+      return account;
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  getResultSign = async (requestID: string): Promise<IRequestSignResp> => {
+    try {
+      const sign = await this.request(requestID, RequestMethod.sign);
+      return sign;
+    } catch (error) {
+      throw error;
+    }
+  };
+
   requestAccount = async (payload: IRequestPayload): Promise<IRequestAccountResp> => {
     try {
       const requestID = this.generateRequestId(payload);
@@ -34,8 +52,8 @@ class DappConnect implements IDappConnect {
         id: requestID,
         data: JSON.stringify({ method: RequestMethod.account }),
       });
-      const accont = await this.request(requestID, RequestMethod.account);
-      return accont;
+      const account = await this.request(requestID, RequestMethod.account);
+      return account;
     } catch (error) {
       throw error;
     }
