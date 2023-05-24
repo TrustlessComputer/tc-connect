@@ -18,20 +18,19 @@ const CONNECT_URL = 'https://wadary.regtest.trustless.computer/relayer';
 const WALLET_URL = 'https://trustlesswallet.io';
 
 const connector = new TC_CONNECT.DappConnect(CONNECT_URL, WALLET_URL);
-const account = await connection.requestAccount({
+
+try {
+  const account = await connection.requestAccount({
     target: "_blank"
-})
-
-if (account.errMsg) {
-    // todo error message
-} else if (account.isCancel) {
-    // todo reject request account
+  });
+  console.log("account", {
+    tcAddress: account.tcAddress,
+    btcAddress: account.btcAddress
+  });
+} catch (e) {
+  // todo handle error
+  // Reject | Create transaciton error
 }
-
-console.log("account", { 
-    tcAddress: account.tcAddress, 
-    btcAddress: account.btcAddress 
-})
 ```
 
 # Sign Transaction
