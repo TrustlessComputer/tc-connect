@@ -11,16 +11,24 @@ interface IRequestConnectResp {
 }
 
 // Request account
-interface IRequestAccountResp extends IRequestConnectResp {
+
+interface IAccount {
   tcAddress: string;
   btcAddress: string;
 }
 
+interface IRequestAccountResp extends IRequestConnectResp {
+  tcAddress: string;
+  btcAddress: string;
+  accounts: IAccount[];
+}
 
 type Target = "_blank" | "_parent" | "_self" | "_top";
 
 interface IRequestPayload {
   target: Target
+  redirectURL?: string;
+  signMessage?: string;
 }
 
 // Request sign

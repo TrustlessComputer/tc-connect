@@ -7,13 +7,20 @@ interface IRequestConnectResp {
     isCancel?: boolean;
     errMsg?: string;
 }
+interface IAccount {
+    tcAddress: string;
+    btcAddress: string;
+}
 interface IRequestAccountResp extends IRequestConnectResp {
     tcAddress: string;
     btcAddress: string;
+    accounts: IAccount[];
 }
 type Target = "_blank" | "_parent" | "_self" | "_top";
 interface IRequestPayload {
     target: Target;
+    redirectURL?: string;
+    signMessage?: string;
 }
 interface IRequestSignPayload extends IRequestPayload {
     isInscribe: boolean;
