@@ -22,7 +22,6 @@ const connector = new TC_CONNECT.DappConnect(CONNECT_URL, WALLET_URL);
 try {
   const account = await connection.requestAccount({
     target: "_blank",
-    redirectURL: "https://dapp_url.com"
   });
   console.log("account", {
     tcAddress: account.tcAddress,
@@ -35,7 +34,7 @@ try {
 }
 ```
 - `target`: window.open type `"_blank" | "_parent" | "_self" | "_top"`
-- `redirectURL`: The url you want to redirect to when the request is successful.
+- `redirectURL`: The url you want to redirect to when the request is successful, `undefined` if not defined.
 - `signMessage`: Message for sign, `undefined` if not defined.
 
 # Sign Transaction
