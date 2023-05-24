@@ -11,6 +11,24 @@ const commons_1 = require("../../utils/commons");
 class DappConnect {
     constructor(baseURL, walletURL) {
         this.walletURL = configs_1.WALLET_URL;
+        this.getResultAccount = async (requestID) => {
+            try {
+                const account = await this.request(requestID, connect_1.RequestMethod.account);
+                return account;
+            }
+            catch (error) {
+                throw error;
+            }
+        };
+        this.getResultSign = async (requestID) => {
+            try {
+                const sign = await this.request(requestID, connect_1.RequestMethod.sign);
+                return sign;
+            }
+            catch (error) {
+                throw error;
+            }
+        };
         this.requestAccount = async (payload) => {
             try {
                 const requestID = this.generateRequestId(payload);
@@ -19,8 +37,8 @@ class DappConnect {
                     id: requestID,
                     data: JSON.stringify({ method: connect_1.RequestMethod.account }),
                 });
-                const accont = await this.request(requestID, connect_1.RequestMethod.account);
-                return accont;
+                const account = await this.request(requestID, connect_1.RequestMethod.account);
+                return account;
             }
             catch (error) {
                 throw error;
