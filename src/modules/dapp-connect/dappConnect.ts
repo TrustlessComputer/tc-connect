@@ -27,6 +27,7 @@ class DappConnect implements IDappConnect {
 
   getResultAccount = async (requestID: string): Promise<IRequestAccountResp> => {
     try {
+      this.currentRequestID = requestID;
       const account = await this.request(requestID, RequestMethod.account);
       return account;
     } catch (error) {
@@ -36,6 +37,7 @@ class DappConnect implements IDappConnect {
 
   getResultSign = async (requestID: string): Promise<IRequestSignResp> => {
     try {
+      this.currentRequestID = requestID;
       const sign = await this.request(requestID, RequestMethod.sign);
       return sign;
     } catch (error) {

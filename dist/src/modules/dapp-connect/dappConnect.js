@@ -13,6 +13,7 @@ class DappConnect {
         this.walletURL = configs_1.WALLET_URL;
         this.getResultAccount = async (requestID) => {
             try {
+                this.currentRequestID = requestID;
                 const account = await this.request(requestID, connect_1.RequestMethod.account);
                 return account;
             }
@@ -22,6 +23,7 @@ class DappConnect {
         };
         this.getResultSign = async (requestID) => {
             try {
+                this.currentRequestID = requestID;
                 const sign = await this.request(requestID, connect_1.RequestMethod.sign);
                 return sign;
             }
