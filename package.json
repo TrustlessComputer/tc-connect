@@ -1,6 +1,6 @@
 {
   "name": "tc-connect",
-  "version": "0.1.11",
+  "version": "0.0.1",
   "main": "dist/index.js",
   "files": [
     "dist"
