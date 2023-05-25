@@ -15,6 +15,7 @@ interface IRequestAccountResp extends IRequestConnectResp {
     tcAddress: string;
     btcAddress: string;
     accounts: IAccount[];
+    signature?: string;
 }
 type Target = "_blank" | "_parent" | "_self" | "_top";
 interface IRequestPayload {

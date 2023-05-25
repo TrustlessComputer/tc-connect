@@ -37,7 +37,7 @@ class DappConnect {
                 // post request
                 await this.axios.post('/data', {
                     id: requestID,
-                    data: JSON.stringify({ method: connect_1.RequestMethod.account }),
+                    data: JSON.stringify({ method: connect_1.RequestMethod.account, ...payload }),
                 });
                 const account = await this.request(requestID, connect_1.RequestMethod.account);
                 return account;

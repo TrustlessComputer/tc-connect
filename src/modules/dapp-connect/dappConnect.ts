@@ -52,7 +52,7 @@ class DappConnect implements IDappConnect {
       // post request
       await this.axios.post('/data', {
         id: requestID,
-        data: JSON.stringify({ method: RequestMethod.account }),
+        data: JSON.stringify({ method: RequestMethod.account, ...payload }),
       });
       const account = await this.request(requestID, RequestMethod.account);
       return account;
