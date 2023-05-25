@@ -98,7 +98,7 @@ const response = await connector.requestSign({
     to: toAddress,
     value: "",
     redirectURL: "https://dapp_url.com",
-    isInscribe: false,
+    isInscribe: true,
     gasPrice: undefined,
     gasLimit: undefined,
     functionType: 'Burn',
@@ -118,7 +118,7 @@ console.log('Sign transaction response: ', response);
 
 - `isInscribe`: a flag to check whether to inscribe Bitcoin transaction:
     - `isInscribe = true`: Sign TC and Inscribe Bitcoin transaction.
-    - `isInscribe = false`: Sign TC and do not inscribe Bitcoin transaction.
+    - `isInscribe = false`: Sign TC and do not Inscribe Bitcoin transaction.
 
 - `gasPrice`: auto estimated, `undefined` if not defined.
 
