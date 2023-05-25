@@ -30,7 +30,7 @@ try {
   });
 } catch (e) {
   // todo handle error
-  // Reject | Create transaciton error
+  // Reject | Create transaction error
 }
 ```
 - `target`: window.open type `"_blank" | "_parent" | "_self" | "_top"`
