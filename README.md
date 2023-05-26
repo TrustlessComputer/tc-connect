@@ -22,20 +22,64 @@ const connector = new TC_CONNECT.DappConnect(CONNECT_URL, WALLET_URL);
 try {
   const account = await connector.requestAccount({
     target: "_blank",
+    redirectURL: "",
+    signMessage: "",
   });
-  console.log("account", {
-    tcAddress: account.tcAddress,
-    btcAddress: account.btcAddress,
-    accounts: account.accounts
-  });
+  console.log("account", account);
 } catch (e) {
   // todo handle error
   // Reject | Create transaction error
 }
 ```
+### Request
 - `target`: window.open type `"_blank" | "_parent" | "_self" | "_top"`
-- `redirectURL`: The url you want to redirect to when the request is successful, `undefined` if not defined.
-- `signMessage`: Message for sign, `undefined` if not defined.
+- `redirectURL`: `optional` The url you want to redirect to when the request is successful.
+- `signMessage`: `optional` Message for sign.
+
+### Response
+- `tcAddress`: TC wallet address in use.
+- `btcAddress`: BTC wallet address  in use.
+- `accounts`: Wallet's list of available accounts.
+  - `tcAddress`: TC wallet address.
+  - `btcAddress`: BTC wallet address.
+- `signature`: The signature is signed by `tcAddress` if request `signMessage`.
+
+
+# Sign Message
+
+```javascript
+import * as TC_CONNECT from "tc-connect";
+
+const CONNECT_URL = 'https://wadary.regtest.trustless.computer/relayer';
+const WALLET_URL = 'https://trustlesswallet.io';
+
+const connector = new TC_CONNECT.DappConnect(CONNECT_URL, WALLET_URL);
+
+try {
+  const resp = await connection.requestSignMessage({
+      target: "_blank",
+      signMessage: "Hellow world.",
+      fromAddress: "0x4821eaeb37061E3c26b2264838e788F8de06bdcF"
+  })
+  console.log("sign response", resp);
+} catch (e) {
+  // todo handle error
+  // Reject | Create transaction error
+}
+```
+### Request
+- `target`: window.open type `"_blank" | "_parent" | "_self" | "_top"`
+- `redirectURL`: `optional` The url you want to redirect to when the request is successful.
+- `signMessage`: Message for sign.
+
+### Response
+- `tcAddress`: TC wallet address in use.
+- `btcAddress`: BTC wallet address  in use.
+- `accounts`: Wallet's list of available accounts.
+  - `tcAddress`: TC wallet address.
+  - `btcAddress`: BTC wallet address.
+- `signature`: The signature is signed by `tcAddress`.
+
 
 # Sign Transaction
 
