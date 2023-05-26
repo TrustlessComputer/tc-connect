@@ -56,7 +56,8 @@ interface IRequestSignPayload extends IRequestPayload {
 }
 
 interface IRequestSignResp extends IRequestConnectResp {
-  hash: string;
+  tcHash: string;
+  btcHash: string;
   nonce: number;
   to?: string;
   from?: string;
