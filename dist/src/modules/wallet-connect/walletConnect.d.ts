@@ -1,4 +1,4 @@
-import { IRequestAccountResp, IRequestSignResp, IResultConnectResp } from '../../interfaces/connect';
+import { IRequestAccountResp, IRequestSignMessageResp, IRequestSignResp, IResultConnectResp } from '../../interfaces/connect';
 import { IWalletConnect } from './types';
 declare class WalletConnect implements IWalletConnect {
     private axios;
@@ -8,6 +8,7 @@ declare class WalletConnect implements IWalletConnect {
     cancelGetRequest: () => void;
     postResultAccount: (result: IRequestAccountResp) => Promise<import("axios").AxiosResponse<any, any>>;
     postResultSign: (result: IRequestSignResp) => Promise<import("axios").AxiosResponse<any, any>>;
+    postResultSignMessage: (result: IRequestSignMessageResp) => Promise<import("axios").AxiosResponse<any, any>>;
     private listen;
     private postResult;
 }

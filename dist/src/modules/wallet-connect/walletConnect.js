@@ -22,6 +22,9 @@ class WalletConnect {
         this.postResultSign = async (result) => {
             return await this.postResult(result);
         };
+        this.postResultSignMessage = async (result) => {
+            return await this.postResult(result);
+        };
         this.listen = async (requestID) => {
             let tcConnectRes;
             let counter = 0;

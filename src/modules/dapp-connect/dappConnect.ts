@@ -4,7 +4,7 @@ import {
   IRequestAccountResp,
   IRequestSignPayload,
   IRequestSignResp,
-  IRequestPayload,
+  IRequestPayload, IRequestSignMessagePayload,
 } from '../../interfaces/connect';
 import { WALLET_URL, BASE_URL } from '../../constants/configs';
 import { sleep, generateUniqueID } from '../../utils/commons';
@@ -54,6 +54,7 @@ class DappConnect implements IDappConnect {
         id: requestID,
         data: JSON.stringify({ method: RequestMethod.account, ...payload }),
       });
+      await sleep(0.2);
       const account = await this.request(requestID, RequestMethod.account);
       return account;
     } catch (error) {
@@ -70,8 +71,26 @@ class DappConnect implements IDappConnect {
         id: requestID,
         data: JSON.stringify({ method: RequestMethod.sign, ...rest }),
       });
+      await sleep(0.2);
       const sign = await this.request(requestID, RequestMethod.sign);
       return sign;
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  requestSignMessage = async (payload: IRequestSignMessagePayload): Promise<IRequestAccountResp> => {
+    try {
+      const requestID = this.generateRequestId(payload);
+
+      // post request
+      await this.axios.post('/data', {
+        id: requestID,
+        data: JSON.stringify({ method: RequestMethod.signMessage, ...payload }),
+      });
+      await sleep(0.2);
+      const resp = await this.request(requestID, RequestMethod.signMessage);
+      return resp;
     } catch (error) {
       throw error;
     }
@@ -118,8 +137,8 @@ class DappConnect implements IDappConnect {
         if (resultRequestId && resultRequestId === requestID && resultData) {
           const tcRes = JSON.parse(resultData);
           if (tcRes && tcRes.method === method) {
-            if (tcRes.isCancel) {
-              throw new Error('Cancel request.');
+            if (tcRes.isReject) {
+              throw new Error('Request rejected.');
             }
             if (tcRes.errMsg) {
               throw new Error(tcRes.errMsg);

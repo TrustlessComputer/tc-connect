@@ -5,6 +5,7 @@ var RequestMethod;
 (function (RequestMethod) {
     RequestMethod["account"] = "account";
     RequestMethod["sign"] = "sign";
+    RequestMethod["signMessage"] = "sign-message";
 })(RequestMethod || (RequestMethod = {}));
 exports.RequestMethod = RequestMethod;
 //# sourceMappingURL=connect.js.map

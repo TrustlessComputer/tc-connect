@@ -1,12 +1,13 @@
 enum RequestMethod {
   account = 'account',
   sign = 'sign',
+  signMessage = "sign-message",
 }
 
 // Base connect resp
 interface IRequestConnectResp {
   method: RequestMethod;
-  isCancel?: boolean;
+  isReject?: boolean;
   errMsg?: string;
 }
 
@@ -24,12 +25,20 @@ interface IRequestAccountResp extends IRequestConnectResp {
   signature?: string
 }
 
+interface IRequestSignMessageResp extends IRequestAccountResp {
+  signature: string
+}
+
 type Target = "_blank" | "_parent" | "_self" | "_top";
 
 interface IRequestPayload {
   target: Target
   redirectURL?: string;
   signMessage?: string;
+}
+
+interface IRequestSignMessagePayload extends IRequestPayload {
+  signMessage: string;
 }
 
 // Request sign
@@ -56,12 +65,19 @@ export {
   RequestMethod,
   IRequestConnectResp,
   IRequestAccountResp,
+  IRequestSignMessageResp,
   IRequestSignPayload,
   IRequestSignResp,
   IRequestPayload,
+  IRequestSignMessagePayload,
 };
 
 // Result resp
-type IResultConnectResp = { method: RequestMethod, site: string } & IRequestSignPayload;
+interface IResultConnectBase {
+  method: RequestMethod,
+  site: string;
+}
+
+type IResultConnectResp = IResultConnectBase & IRequestSignPayload;
 
 export { IResultConnectResp };

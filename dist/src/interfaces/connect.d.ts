@@ -1,10 +1,11 @@
 declare enum RequestMethod {
     account = "account",
-    sign = "sign"
+    sign = "sign",
+    signMessage = "sign-message"
 }
 interface IRequestConnectResp {
     method: RequestMethod;
-    isCancel?: boolean;
+    isReject?: boolean;
     errMsg?: string;
 }
 interface IAccount {
@@ -17,11 +18,17 @@ interface IRequestAccountResp extends IRequestConnectResp {
     accounts: IAccount[];
     signature?: string;
 }
+interface IRequestSignMessageResp extends IRequestAccountResp {
+    signature: string;
+}
 type Target = "_blank" | "_parent" | "_self" | "_top";
 interface IRequestPayload {
     target: Target;
     redirectURL?: string;
     signMessage?: string;
+}
+interface IRequestSignMessagePayload extends IRequestPayload {
+    signMessage: string;
 }
 interface IRequestSignPayload extends IRequestPayload {
     isInscribe: boolean;
@@ -40,9 +47,10 @@ interface IRequestSignResp extends IRequestConnectResp {
     to?: string;
     from?: string;
 }
-export { RequestMethod, IRequestConnectResp, IRequestAccountResp, IRequestSignPayload, IRequestSignResp, IRequestPayload, };
-type IResultConnectResp = {
+export { RequestMethod, IRequestConnectResp, IRequestAccountResp, IRequestSignMessageResp, IRequestSignPayload, IRequestSignResp, IRequestPayload, IRequestSignMessagePayload, };
+interface IResultConnectBase {
     method: RequestMethod;
     site: string;
-} & IRequestSignPayload;
+}
+type IResultConnectResp = IResultConnectBase & IRequestSignPayload;
 export { IResultConnectResp };

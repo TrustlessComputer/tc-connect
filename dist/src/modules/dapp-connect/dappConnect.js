@@ -39,6 +39,7 @@ class DappConnect {
                     id: requestID,
                     data: JSON.stringify({ method: connect_1.RequestMethod.account, ...payload }),
                 });
+                await (0, commons_1.sleep)(0.2);
                 const account = await this.request(requestID, connect_1.RequestMethod.account);
                 return account;
             }
@@ -54,8 +55,25 @@ class DappConnect {
                     id: requestID,
                     data: JSON.stringify({ method: connect_1.RequestMethod.sign, ...rest }),
                 });
+                await (0, commons_1.sleep)(0.2);
                 const sign = await this.request(requestID, connect_1.RequestMethod.sign);
                 return sign;
+            }
+            catch (error) {
+                throw error;
+            }
+        };
+        this.requestSignMessage = async (payload) => {
+            try {
+                const requestID = this.generateRequestId(payload);
+                // post request
+                await this.axios.post('/data', {
+                    id: requestID,
+                    data: JSON.stringify({ method: connect_1.RequestMethod.signMessage, ...payload }),
+                });
+                await (0, commons_1.sleep)(0.2);
+                const resp = await this.request(requestID, connect_1.RequestMethod.signMessage);
+                return resp;
             }
             catch (error) {
                 throw error;
@@ -100,8 +118,8 @@ class DappConnect {
                     if (resultRequestId && resultRequestId === requestID && resultData) {
                         const tcRes = JSON.parse(resultData);
                         if (tcRes && tcRes.method === method) {
-                            if (tcRes.isCancel) {
-                                throw new Error('Cancel request.');
+                            if (tcRes.isReject) {
+                                throw new Error('Request rejected.');
                             }
                             if (tcRes.errMsg) {
                                 throw new Error(tcRes.errMsg);
