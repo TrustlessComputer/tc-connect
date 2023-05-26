@@ -26,7 +26,7 @@ interface IRequestAccountResp extends IRequestConnectResp {
 }
 
 interface IRequestSignMessageResp extends IRequestAccountResp {
-  signature: string
+  signature: string;
 }
 
 type Target = "_blank" | "_parent" | "_self" | "_top";
@@ -38,6 +38,7 @@ interface IRequestPayload {
 }
 
 interface IRequestSignMessagePayload extends IRequestPayload {
+  fromAddress: string;
   signMessage: string;
 }
 
@@ -78,6 +79,6 @@ interface IResultConnectBase {
   site: string;
 }
 
-type IResultConnectResp = IResultConnectBase & IRequestSignPayload;
+type IResultConnectResp = IResultConnectBase & IRequestSignPayload & IRequestSignMessagePayload;
 
 export { IResultConnectResp };

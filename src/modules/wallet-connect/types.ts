@@ -1,5 +1,6 @@
 import {
   IRequestAccountResp,
+  IRequestSignMessageResp,
   IRequestSignResp,
   IResultConnectResp,
 } from '../../interfaces/connect';
@@ -9,6 +10,7 @@ interface IWalletConnect {
   cancelGetRequest: () => void;
   postResultAccount: (result: IRequestAccountResp) => void;
   postResultSign: (result: IRequestSignResp) => void;
+  postResultSignMessage: (result: IRequestSignMessageResp) => void;
 }
 
 export { IWalletConnect };

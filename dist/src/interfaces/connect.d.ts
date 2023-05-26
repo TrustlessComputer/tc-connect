@@ -28,6 +28,7 @@ interface IRequestPayload {
     signMessage?: string;
 }
 interface IRequestSignMessagePayload extends IRequestPayload {
+    fromAddress: string;
     signMessage: string;
 }
 interface IRequestSignPayload extends IRequestPayload {
@@ -52,5 +53,5 @@ interface IResultConnectBase {
     method: RequestMethod;
     site: string;
 }
-type IResultConnectResp = IResultConnectBase & IRequestSignPayload;
+type IResultConnectResp = IResultConnectBase & IRequestSignPayload & IRequestSignMessagePayload;
 export { IResultConnectResp };

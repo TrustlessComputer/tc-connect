@@ -4,7 +4,7 @@ import {
   IRequestAccountResp,
   IRequestSignPayload,
   IRequestSignResp,
-  IRequestPayload, IRequestSignMessagePayload,
+  IRequestPayload, IRequestSignMessagePayload, IRequestSignMessageResp,
 } from '../../interfaces/connect';
 import { WALLET_URL, BASE_URL } from '../../constants/configs';
 import { sleep, generateUniqueID } from '../../utils/commons';
@@ -79,7 +79,7 @@ class DappConnect implements IDappConnect {
     }
   };
 
-  requestSignMessage = async (payload: IRequestSignMessagePayload): Promise<IRequestAccountResp> => {
+  requestSignMessage = async (payload: IRequestSignMessagePayload): Promise<IRequestSignMessageResp> => {
     try {
       const requestID = this.generateRequestId(payload);
 
