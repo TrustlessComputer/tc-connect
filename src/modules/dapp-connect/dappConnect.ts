@@ -62,14 +62,14 @@ class DappConnect implements IDappConnect {
     }
   };
 
-  requestSign = async ({ target, ...rest }: IRequestSignPayload): Promise<IRequestSignResp> => {
+  requestSign = async (payload: IRequestSignPayload): Promise<IRequestSignResp> => {
     try {
-      const requestID = this.generateRequestId({ target });
+      const requestID = this.generateRequestId({ target: payload.target });
 
       // post request
       await this.axios.post('/data', {
         id: requestID,
-        data: JSON.stringify({ method: RequestMethod.sign, ...rest }),
+        data: JSON.stringify({ method: RequestMethod.sign, ...payload }),
       });
       await sleep(0.2);
       const sign = await this.request(requestID, RequestMethod.sign);

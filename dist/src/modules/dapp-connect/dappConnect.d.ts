@@ -8,7 +8,7 @@ declare class DappConnect implements IDappConnect {
     getResultAccount: (requestID: string) => Promise<IRequestAccountResp>;
     getResultSign: (requestID: string) => Promise<IRequestSignResp>;
     requestAccount: (payload: IRequestPayload) => Promise<IRequestAccountResp>;
-    requestSign: ({ target, ...rest }: IRequestSignPayload) => Promise<IRequestSignResp>;
+    requestSign: (payload: IRequestSignPayload) => Promise<IRequestSignResp>;
     requestSignMessage: (payload: IRequestSignMessagePayload) => Promise<IRequestSignMessageResp>;
     cancelRequest: () => void;
     private generateRequestId;

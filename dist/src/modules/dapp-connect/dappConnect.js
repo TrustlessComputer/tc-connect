@@ -47,13 +47,13 @@ class DappConnect {
                 throw error;
             }
         };
-        this.requestSign = async ({ target, ...rest }) => {
+        this.requestSign = async (payload) => {
             try {
-                const requestID = this.generateRequestId({ target });
+                const requestID = this.generateRequestId({ target: payload.target });
                 // post request
                 await this.axios.post('/data', {
                     id: requestID,
-                    data: JSON.stringify({ method: connect_1.RequestMethod.sign, ...rest }),
+                    data: JSON.stringify({ method: connect_1.RequestMethod.sign, ...payload }),
                 });
                 await (0, commons_1.sleep)(0.2);
                 const sign = await this.request(requestID, connect_1.RequestMethod.sign);
