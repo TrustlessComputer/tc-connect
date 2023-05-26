@@ -16,7 +16,7 @@ With Yarn:
 import * as TC_CONNECT from "tc-connect";
 
 const CONNECT_URL = 'https://wadary.regtest.trustless.computer/relayer';
-const WALLET_URL = 'https://trustlesswallet.io';
+const WALLET_URL = 'https://browser-beta.trustlesswallet.io';
 
 const connector = new TC_CONNECT.DappConnect(CONNECT_URL, WALLET_URL);
 
