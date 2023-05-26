@@ -11,6 +11,7 @@ With Yarn:
 
 # Connect wallet
 
+### 1. Example code
 ```javascript
 import * as TC_CONNECT from "tc-connect";
 
@@ -31,12 +32,12 @@ try {
   // Reject | Create transaction error
 }
 ```
-### Request
+### 2. Request
 - `target`: window.open type `"_blank" | "_parent" | "_self" | "_top"`
 - `redirectURL`: `optional` The url you want to redirect to when the request is successful.
 - `signMessage`: `optional` Message for sign.
 
-### Response
+### 3. Response
 - `tcAddress`: TC wallet address in use.
 - `btcAddress`: BTC wallet address  in use.
 - `accounts`: Wallet's list of available accounts.
@@ -47,6 +48,7 @@ try {
 
 # Sign Message
 
+### 1. Example code
 ```javascript
 import * as TC_CONNECT from "tc-connect";
 
@@ -67,12 +69,12 @@ try {
   // Reject | Create transaction error
 }
 ```
-### Request
+### 2. Request
 - `target`: window.open type `"_blank" | "_parent" | "_self" | "_top"`
 - `redirectURL`: `optional` The url you want to redirect to when the request is successful.
 - `signMessage`: Message for sign.
 
-### Response
+### 3. Response
 - `tcAddress`: TC wallet address in use.
 - `btcAddress`: BTC wallet address  in use.
 - `accounts`: Wallet's list of available accounts.
