@@ -45,7 +45,7 @@ class WalletConnect {
                 catch (error) {
                     counter++;
                     if (counter === 4) {
-                        throw new Error(`Can get request ${requestID}.`);
+                        throw new Error(`Can not get request ${requestID}.`);
                     }
                     // sleep 2s
                     await (0, commons_1.sleep)(3000);

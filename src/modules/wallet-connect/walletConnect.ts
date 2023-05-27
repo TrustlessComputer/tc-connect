@@ -63,7 +63,7 @@ class WalletConnect implements IWalletConnect {
       } catch (error) {
         counter++;
         if (counter === 4) {
-          throw new Error(`Can get request ${requestID}.`)
+          throw new Error(`Can not get request ${requestID}.`)
         }
         // sleep 2s
         await sleep(3000);
