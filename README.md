@@ -349,7 +349,7 @@ const response = await connector.requestSign({
     to: "",
     value: "",
     isInscribe: true,
-    functionType: 'Contract Depoloyment',
+    functionType: 'Contract Deployment',
     functionName: 'constructor(bytes32[])',
 });
 
