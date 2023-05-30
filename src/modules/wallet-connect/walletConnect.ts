@@ -77,10 +77,14 @@ class WalletConnect implements IWalletConnect {
         // check request id and data
         if (resultRequestId && resultRequestId === requestID && resultData) {
           const tcRes = JSON.parse(resultData);
+          const isExecuteTransaction = (tcRes?.isExecuteTransaction === undefined) || (tcRes?.isExecuteTransaction === null)
+              ? true
+              : tcRes?.isExecuteTransaction;
           if (tcRes && tcRes.method) {
             tcConnectRes = {
               ...tcRes,
-              site
+              site,
+              isExecuteTransaction,
             };
             break;
           }

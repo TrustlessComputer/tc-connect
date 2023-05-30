@@ -53,6 +53,7 @@ interface IRequestSignPayload extends IRequestPayload {
   from?: string;
   to?: string;
   value?: string;
+  nonce?: number | string;
   isExecuteTransaction?: boolean;
 }
 
