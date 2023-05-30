@@ -41,6 +41,7 @@ try {
 - `tcAddress`: TC wallet address in use.
 - `btcAddress`: BTC wallet address  in use.
 - `accounts`: Wallet's list of available accounts.
+  - `name`: The account name.
   - `tcAddress`: TC wallet address.
   - `btcAddress`: BTC wallet address.
 - `signature`: The signature is signed by `tcAddress` if request `signMessage`.
@@ -78,6 +79,7 @@ try {
 - `tcAddress`: TC wallet address in use.
 - `btcAddress`: BTC wallet address  in use.
 - `accounts`: Wallet's list of available accounts.
+  - `name`: The account name.
   - `tcAddress`: TC wallet address.
   - `btcAddress`: BTC wallet address.
 - `signature`: The signature is signed by `tcAddress`.
@@ -152,13 +154,15 @@ const response = await connector.requestSign({
 });
 
 console.log('Sign transaction response: ', response);
-
 ```
+### 4. Request Payload
 - `target`: window.open type `"_blank" | "_parent" | "_self" | "_top"`
 
 - `calldata`: calldata for sign and send transaction.
 
 - `to`: destination address.
+
+- `isExecuteTransaction`: `optional`Test execute transaction before broadcast, default `true`.
 
 - `value`: `optional` value TC sending transaction. // 1e18 = 1 TC
 
@@ -171,6 +175,15 @@ console.log('Sign transaction response: ', response);
 - `gasLimit`: `optional` auto estimated.
 
 - `redirectURL`: `optional` The url you want to redirect to when the request is successful.
+
+### 5. Response Payload
+  - `tcHash`: TC transaction hash.
+
+  - `btcHash`: `optional`BTC transaction hash.
+
+  - `to`: `optional`destination address.
+
+  - `from`: sender address.
 
 ## Contract Deployment
 
