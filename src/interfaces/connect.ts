@@ -16,6 +16,7 @@ interface IRequestConnectResp {
 interface IAccount {
   tcAddress: string;
   btcAddress: string;
+  name: string;
 }
 
 interface IRequestAccountResp extends IRequestConnectResp {
