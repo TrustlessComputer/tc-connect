@@ -10,6 +10,10 @@ import { WALLET_URL, BASE_URL } from '../../constants/configs';
 import { sleep, generateUniqueID } from '../../utils/commons';
 import { IDappConnect } from './types';
 
+const SLEEP_TIME = 3000;
+const COUNTER = 100;
+const TIME_OUT = SLEEP_TIME * COUNTER;
+
 class DappConnect implements IDappConnect {
   private axios: AxiosInstance;
   private currentRequestID?: string;
@@ -103,7 +107,10 @@ class DappConnect implements IDappConnect {
   private generateRequestId = (payload: IRequestPayload) => {
     const requestID = generateUniqueID();
     this.currentRequestID = requestID;
-    window.open(`${this.walletURL}?requestID=${requestID}`, payload.target);
+
+    const expired = new Date().getTime() + TIME_OUT;
+
+    window.open(`${this.walletURL}?requestID=${requestID}&expired=${expired}`, payload.target);
     return requestID;
   };
 
@@ -116,7 +123,7 @@ class DappConnect implements IDappConnect {
         break;
       }
       // sleep 3s
-      await sleep(3000);
+      await sleep(SLEEP_TIME);
 
       // handle get result from wallet
       let res;
@@ -124,7 +131,8 @@ class DappConnect implements IDappConnect {
         res = await this.axios.get(`/result?id=${requestID}`);
       } catch (error) {
         counter++;
-        if (counter === 40) {
+        // 5 mins, sleep 3s
+        if (counter === COUNTER) {
           throw new Error(`Timeout.`);
         }
         continue;

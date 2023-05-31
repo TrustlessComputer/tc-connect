@@ -8,6 +8,9 @@ const axios_1 = __importDefault(require("axios"));
 const connect_1 = require("../../interfaces/connect");
 const configs_1 = require("../../constants/configs");
 const commons_1 = require("../../utils/commons");
+const SLEEP_TIME = 3000;
+const COUNTER = 100;
+const TIME_OUT = SLEEP_TIME * COUNTER;
 class DappConnect {
     constructor(baseURL, walletURL) {
         this.walletURL = configs_1.WALLET_URL;
@@ -85,7 +88,8 @@ class DappConnect {
         this.generateRequestId = (payload) => {
             const requestID = (0, commons_1.generateUniqueID)();
             this.currentRequestID = requestID;
-            window.open(`${this.walletURL}?requestID=${requestID}`, payload.target);
+            const expired = new Date().getTime() + TIME_OUT;
+            window.open(`${this.walletURL}?requestID=${requestID}&expired=${expired}`, payload.target);
             return requestID;
         };
         this.request = async (requestID, method) => {
@@ -97,7 +101,7 @@ class DappConnect {
                     break;
                 }
                 // sleep 3s
-                await (0, commons_1.sleep)(3000);
+                await (0, commons_1.sleep)(SLEEP_TIME);
                 // handle get result from wallet
                 let res;
                 try {
@@ -105,7 +109,8 @@ class DappConnect {
                 }
                 catch (error) {
                     counter++;
-                    if (counter === 40) {
+                    // 5 mins, sleep 3s
+                    if (counter === COUNTER) {
                         throw new Error(`Timeout.`);
                     }
                     continue;
